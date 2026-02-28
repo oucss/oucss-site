@@ -1,10 +1,19 @@
+/* =========================
+   ROOT VARIABLES
+========================= */
+
 :root {
   --bg-dark: #0d1117;
   --bg-light: #f4f4f4;
   --primary: #00ffcc;
+  --accent: #8a2be2;
   --text-dark: #e6edf3;
   --text-light: #111;
 }
+
+/* =========================
+   GLOBAL
+========================= */
 
 body {
   margin: 0;
@@ -19,29 +28,98 @@ body.light-mode {
   color: var(--text-light);
 }
 
+h1, h2, h3 {
+  margin-top: 0;
+}
+
+section {
+  position: relative;
+}
+
+/* =========================
+   NAVBAR
+========================= */
+
 .navbar {
   position: sticky;
   top: 0;
   backdrop-filter: blur(10px);
-  background: rgba(13,17,23,0.8);
-  padding: 1rem;
+  background: rgba(13,17,23,0.85);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  z-index: 1000;
 }
 
 .nav-container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 1rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.logo {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.nav-links {
+  display: flex;
 }
 
 .nav-links a {
   margin-left: 1.5rem;
   color: var(--text-dark);
   text-decoration: none;
+  transition: 0.3s ease;
 }
 
 .nav-links a:hover {
   color: var(--primary);
 }
+
+/* =========================
+   MOBILE NAV
+========================= */
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.hamburger span {
+  height: 2px;
+  width: 25px;
+  background: var(--text-dark);
+  margin-bottom: 5px;
+}
+
+@media (max-width: 768px) {
+
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    background: rgba(13,17,23,0.95);
+    position: absolute;
+    top: 60px;
+    right: 0;
+    width: 200px;
+    padding: 1rem;
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+}
+
+/* =========================
+   HERO SECTION
+========================= */
 
 .hero {
   height: 90vh;
@@ -49,16 +127,33 @@ body.light-mode {
   justify-content: center;
   align-items: center;
   text-align: center;
-  position: relative;
   overflow: hidden;
+}
+
+.hero-content {
+  z-index: 1;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  letter-spacing: 1px;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  opacity: 0.8;
+}
+
+.hero-buttons {
+  margin-top: 2rem;
 }
 
 .hero-grid {
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(0,255,204,0.1) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,255,204,0.1) 1px, transparent 1px);
+    linear-gradient(rgba(0,255,204,0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,255,204,0.08) 1px, transparent 1px);
   background-size: 40px 40px;
   animation: moveGrid 20s linear infinite;
 }
@@ -68,25 +163,49 @@ body.light-mode {
   to { background-position: 40px 40px; }
 }
 
-.btn-primary {
-  background: var(--primary);
+/* =========================
+   BUTTONS
+========================= */
+
+.btn-primary, .btn-secondary {
   padding: 0.8rem 1.5rem;
   text-decoration: none;
+  transition: 0.3s ease;
+}
+
+.btn-primary {
+  background: var(--primary);
   color: black;
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 15px var(--primary);
 }
 
 .btn-secondary {
   border: 1px solid var(--primary);
-  padding: 0.8rem 1.5rem;
   color: var(--primary);
-  text-decoration: none;
 }
+
+.btn-secondary:hover {
+  background: var(--primary);
+  color: black;
+}
+
+/* =========================
+   PAGE HERO (About/Team)
+========================= */
 
 .page-hero {
   padding: 6rem 2rem 3rem 2rem;
   text-align: center;
   background: linear-gradient(to bottom, rgba(0,255,204,0.05), transparent);
 }
+
+/* =========================
+   ABOUT PAGE
+========================= */
 
 .about-section {
   padding: 3rem 2rem 6rem 2rem;
@@ -111,6 +230,10 @@ body.light-mode {
   margin-top: 3rem;
   text-align: center;
 }
+
+/* =========================
+   TEAM PAGE
+========================= */
 
 .team-section {
   padding: 3rem 2rem 6rem 2rem;
@@ -143,10 +266,12 @@ body.light-mode {
 .team-card:hover {
   border-color: var(--primary);
   transform: translateY(-5px);
+  box-shadow: 0 0 15px rgba(0,255,204,0.3);
 }
 
-.team-card h3 {
-  margin-top: 0;
+.team-card p {
+  font-size: 0.9rem;
+  opacity: 0.85;
 }
 
 .role {
@@ -160,4 +285,31 @@ body.light-mode {
   background: rgba(255,255,255,0.03);
   padding: 1.5rem;
   border-left: 3px solid var(--primary);
+}
+
+/* =========================
+   PROGRESSION SECTION
+========================= */
+
+.progression {
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.progress-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.progress-card {
+  background: rgba(255,255,255,0.03);
+  padding: 1.5rem;
+  border: 1px solid rgba(255,255,255,0.05);
+  transition: 0.3s ease;
+}
+
+.progress-card:hover {
+  border-color: var(--primary);
 }
