@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="OUCSS Member Blogs - Writeups, research, and insights from the Open University Cyber Security Society community.">
+  <meta property="og:title" content="Member Blogs | OUCSS">
+  <meta property="og:description" content="Writeups, research and insights from OUCSS members.">
+  <meta property="og:type" content="website">
+  <title>Member Blogs | OUCSS</title>
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header class="navbar">
+  <div class="nav-container">
+    <div class="logo"><a href="/">OUCSS</a></div>
+    <nav class="nav-links" id="navLinks">
+      <a href="/">Home</a>
+      <a href="/about.html">About</a>
+      <a href="/team.html">Team</a>
+      <a href="/projects.html">Member Projects</a>
+      <a href="/meetups.html">Meetups</a>
+      <a href="/blog.html" class="nav-active">Blogs</a>
+      <a href="/ctfd.html">CTF</a>
+      <a href="https://join.oucss.rocks" target="_blank">Join</a>
+    </nav>
+    <div class="nav-controls">
+      <button id="themeToggle">🌙</button>
+      <div class="hamburger" id="hamburger">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="page-hero">
+  <h1>Member Blogs</h1>
+  <p>Writeups. Research. War stories from the field.</p>
+</section>
+
+<!-- Filter Bar -->
+<section class="blog-filter-section">
+  <div class="blog-filter-container">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="ctf">CTF Writeup</button>
+    <button class="filter-btn" data-filter="research">Research</button>
+    <button class="filter-btn" data-filter="tooling">Tooling</button>
+    <button class="filter-btn" data-filter="walkthrough">Walkthrough</button>
+  </div>
+</section>
+
+<!-- Blog Cards -->
+<section class="blogs-section">
+  <div class="blogs-container">
+
+    <!-- Example card 1 -->
+    <article class="blog-card" data-category="ctf">
+      <div class="blog-card-header">
+        <span class="blog-tag ctf">CTF Writeup</span>
+        <span class="blog-date">2025</span>
+      </div>
+      <h3 class="blog-title">HTB — Example Box Walkthrough</h3>
+      <p class="blog-excerpt">A full walkthrough of enumeration, foothold, privilege escalation and post-exploitation on this retired HackTheBox machine.</p>
+      <div class="blog-meta">
+        <span class="blog-author">// m0j0r1s1n</span>
+        <a href="#" target="_blank" class="blog-read-more">Read →</a>
+      </div>
+      <div class="blog-card-line"></div>
+    </article>
+
+    <!-- Example card 2 -->
+    <article class="blog-card" data-category="research">
+      <div class="blog-card-header">
+        <span class="blog-tag research">Research</span>
+        <span class="blog-date">2025</span>
+      </div>
+      <h3 class="blog-title">JWT Exploitation — A Deep Dive</h3>
+      <p class="blog-excerpt">Exploring common JWT vulnerabilities including algorithm confusion, none algorithm attacks, and weak secret brute forcing.</p>
+      <div class="blog-meta">
+        <span class="blog-author">// SPEER</span>
+        <a href="#" target="_blank" class="blog-read-more">Read →</a>
+      </div>
+      <div class="blog-card-line"></div>
+    </article>
+
+    <!-- Example card 3 -->
+    <article class="blog-card" data-category="tooling">
+      <div class="blog-card-header">
+        <span class="blog-tag tooling">Tooling</span>
+        <span class="blog-date">2025</span>
+      </div>
+      <h3 class="blog-title">Building a Multi-threaded Port Scanner in Python</h3>
+      <p class="blog-excerpt">How I built a fast, lightweight port scanner using Python's socket and threading libraries — and what I learned along the way.</p>
+      <div class="blog-meta">
+        <span class="blog-author">// iDomino</span>
+        <a href="#" target="_blank" class="blog-read-more">Read →</a>
+      </div>
+      <div class="blog-card-line"></div>
+    </article>
+
+    <!-- Example card 4 -->
+    <article class="blog-card" data-category="walkthrough">
+      <div class="blog-card-header">
+        <span class="blog-tag walkthrough">Walkthrough</span>
+        <span class="blog-date">2025</span>
+      </div>
+      <h3 class="blog-title">Getting Started with TryHackMe — A Beginner's Guide</h3>
+      <p class="blog-excerpt">A step-by-step guide for OUCSS newcomers on how to get started with TryHackMe, which learning paths to take, and how to track progress.</p>
+      <div class="blog-meta">
+        <span class="blog-author">// BitRot</span>
+        <a href="#" target="_blank" class="blog-read-more">Read →</a>
+      </div>
+      <div class="blog-card-line"></div>
+    </article>
+
+    <!-- Example card 5 -->
+    <article class="blog-card" data-category="ctf">
+      <div class="blog-card-header">
+        <span class="blog-tag ctf">CTF Writeup</span>
+        <span class="blog-date">2025</span>
+      </div>
+      <h3 class="blog-title">PicoCTF 2024 — Crypto Category Writeups</h3>
+      <p class="blog-excerpt">Solutions and explanations for the cryptography challenges from PicoCTF 2024, covering RSA, XOR and classical ciphers.</p>
+      <div class="blog-meta">
+        <span class="blog-author">// Dreadless</span>
+        <a href="#" target="_blank" class="blog-read-more">Read →</a>
+      </div>
+      <div class="blog-card-line"></div>
+    </article>
+
+    <!-- Example card 6 -->
+    <article class="blog-card" data-category="research">
+      <div class="blog-card-header">
+        <span class="blog-tag research">Research</span>
+        <span class="blog-date">2025</span>
+      </div>
+      <h3 class="blog-title">Understanding Active Directory Attack Paths</h3>
+      <p class="blog-excerpt">A breakdown of common AD attack paths including Kerberoasting, Pass-the-Hash, and BloodHound enumeration techniques.</p>
+      <div class="blog-meta">
+        <span class="blog-author">// SPEER</span>
+        <a href="#" target="_blank" class="blog-read-more">Read →</a>
+      </div>
+      <div class="blog-card-line"></div>
+    </article>
+
+  </div>
+</section>
+
+<!-- Submit your blog -->
+<section class="blog-submit-section">
+  <div class="blog-submit-container">
+    <div class="blog-submit-terminal">
+      <div class="terminal-bar">
+        <span class="terminal-dot red"></span>
+        <span class="terminal-dot yellow"></span>
+        <span class="terminal-dot green"></span>
+        <span class="terminal-title">submit_blog.sh</span>
+      </div>
+      <div class="terminal-body">
+        <p><span class="terminal-prompt">$</span> Have a writeup or research post to share?</p>
+        <p><span class="terminal-prompt">></span> Drop a link in <strong>#member-blogs</strong> on Discord</p>
+        <p><span class="terminal-prompt">></span> The team will review and add it here</p>
+        <p><span class="terminal-prompt">></span> All skill levels welcome — beginners encouraged</p>
+        <a href="https://join.oucss.rocks" target="_blank" class="btn-primary terminal-btn">Submit via Discord</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="/assets/js/theme.js"></script>
+<script src="/assets/js/main.js"></script>
+<script>
+  // Filter functionality
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const blogCards = document.querySelectorAll('.blog-card');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      blogCards.forEach(card => {
+        if (filter === 'all' || card.dataset.category === filter) {
+          card.style.display = 'flex';
+          setTimeout(() => card.style.opacity = '1', 10);
+        } else {
+          card.style.opacity = '0';
+          setTimeout(() => card.style.display = 'none', 300);
+        }
+      });
+    });
+  });
+</script>
+</body>
+</html>

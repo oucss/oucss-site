@@ -543,3 +543,224 @@ section {
   margin-bottom: 2rem;
   line-height: 1.7;
 }
+
+/* =========================
+   BLOGS PAGE
+========================= */
+
+.nav-active {
+  color: var(--primary) !important;
+}
+
+/* Filter bar */
+.blog-filter-section {
+  padding: 1.5rem 2rem 0 2rem;
+}
+
+.blog-filter-container {
+  max-width: 1100px;
+  margin: auto;
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.1);
+  color: var(--text-dark);
+  padding: 0.4rem 1rem;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: 0.2s ease;
+  font-family: 'Share Tech Mono', monospace;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: rgba(0,255,204,0.05);
+}
+
+/* Blog grid */
+.blogs-section {
+  padding: 2rem 2rem 4rem 2rem;
+}
+
+.blogs-container {
+  max-width: 1100px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+.blog-card {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.05);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: all 0.3s ease;
+  position: relative;
+  opacity: 1;
+}
+
+.blog-card:hover {
+  border-color: var(--primary);
+  transform: translateY(-4px);
+  box-shadow: 0 0 20px rgba(0,255,204,0.1);
+}
+
+.blog-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.blog-tag {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 0.2rem 0.6rem;
+  font-family: 'Share Tech Mono', monospace;
+}
+
+.blog-tag.ctf       { color: #00ffcc; border: 1px solid #00ffcc33; background: rgba(0,255,204,0.05); }
+.blog-tag.research  { color: #ff6b6b; border: 1px solid #ff6b6b33; background: rgba(255,107,107,0.05); }
+.blog-tag.tooling   { color: #ffd93d; border: 1px solid #ffd93d33; background: rgba(255,217,61,0.05); }
+.blog-tag.walkthrough { color: #a8ff78; border: 1px solid #a8ff7833; background: rgba(168,255,120,0.05); }
+
+.blog-date {
+  font-size: 0.75rem;
+  opacity: 0.4;
+  font-family: 'Share Tech Mono', monospace;
+}
+
+.blog-title {
+  font-size: 1rem;
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  line-height: 1.4;
+  margin: 0;
+  color: var(--text-dark);
+}
+
+.blog-excerpt {
+  font-size: 0.85rem;
+  opacity: 0.7;
+  line-height: 1.6;
+  margin: 0;
+  flex-grow: 1;
+}
+
+.blog-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+}
+
+.blog-author {
+  font-size: 0.8rem;
+  color: var(--primary);
+  opacity: 0.7;
+  font-family: 'Share Tech Mono', monospace;
+}
+
+.blog-read-more {
+  font-size: 0.85rem;
+  color: var(--primary);
+  text-decoration: none;
+  font-family: 'Share Tech Mono', monospace;
+  transition: 0.2s ease;
+}
+
+.blog-read-more:hover {
+  letter-spacing: 2px;
+}
+
+.blog-card-line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--primary);
+  transition: width 0.4s ease;
+}
+
+.blog-card:hover .blog-card-line {
+  width: 100%;
+}
+
+/* Terminal submit section */
+.blog-submit-section {
+  padding: 2rem 2rem 5rem 2rem;
+}
+
+.blog-submit-container {
+  max-width: 700px;
+  margin: auto;
+}
+
+.blog-submit-terminal {
+  border: 1px solid rgba(0,255,204,0.3);
+  background: rgba(0,0,0,0.4);
+  overflow: hidden;
+}
+
+.terminal-bar {
+  background: rgba(255,255,255,0.05);
+  padding: 0.6rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.terminal-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.terminal-dot.red    { background: #ff5f57; }
+.terminal-dot.yellow { background: #febc2e; }
+.terminal-dot.green  { background: #28c840; }
+
+.terminal-title {
+  font-size: 0.75rem;
+  opacity: 0.5;
+  margin-left: 0.5rem;
+  font-family: 'Share Tech Mono', monospace;
+}
+
+.terminal-body {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.terminal-body p {
+  margin: 0;
+  font-size: 0.9rem;
+  font-family: 'Share Tech Mono', monospace;
+  opacity: 0.85;
+}
+
+.terminal-prompt {
+  color: var(--primary);
+  margin-right: 0.5rem;
+}
+
+.terminal-btn {
+  margin-top: 1rem;
+  display: inline-block;
+  font-family: 'Share Tech Mono', monospace;
+}
