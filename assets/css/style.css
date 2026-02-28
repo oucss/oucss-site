@@ -81,3 +81,83 @@ body.light-mode {
   color: var(--primary);
   text-decoration: none;
 }
+
+.page-hero {
+  padding: 6rem 2rem 3rem 2rem;
+  text-align: center;
+  background: linear-gradient(to bottom, rgba(0,255,204,0.05), transparent);
+}
+
+.about-section {
+  padding: 3rem 2rem 6rem 2rem;
+}
+
+.about-container {
+  max-width: 900px;
+  margin: auto;
+  line-height: 1.7;
+}
+
+.about-container h2 {
+  margin-top: 3rem;
+  color: var(--primary);
+}
+
+.about-container ul {
+  margin-left: 1.5rem;
+}
+
+.about-cta {
+  margin-top: 3rem;
+  text-align: center;
+}
+
+.team-section {
+  padding: 3rem 2rem 6rem 2rem;
+}
+
+.team-container {
+  max-width: 1100px;
+  margin: auto;
+  margin-bottom: 4rem;
+}
+
+.team-container h2 {
+  color: var(--primary);
+  margin-bottom: 2rem;
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.team-card {
+  background: rgba(255,255,255,0.03);
+  padding: 1.5rem;
+  border: 1px solid rgba(255,255,255,0.05);
+  transition: 0.3s ease;
+}
+
+.team-card:hover {
+  border-color: var(--primary);
+  transform: translateY(-5px);
+}
+
+.team-card h3 {
+  margin-top: 0;
+}
+
+.role {
+  display: inline-block;
+  font-size: 0.85rem;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+}
+
+.acknowledgement-box {
+  background: rgba(255,255,255,0.03);
+  padding: 1.5rem;
+  border-left: 3px solid var(--primary);
+}
