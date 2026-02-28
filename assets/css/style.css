@@ -1,0 +1,83 @@
+:root {
+  --bg-dark: #0d1117;
+  --bg-light: #f4f4f4;
+  --primary: #00ffcc;
+  --text-dark: #e6edf3;
+  --text-light: #111;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: var(--bg-dark);
+  color: var(--text-dark);
+  transition: 0.3s ease;
+}
+
+body.light-mode {
+  background: var(--bg-light);
+  color: var(--text-light);
+}
+
+.navbar {
+  position: sticky;
+  top: 0;
+  backdrop-filter: blur(10px);
+  background: rgba(13,17,23,0.8);
+  padding: 1rem;
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-links a {
+  margin-left: 1.5rem;
+  color: var(--text-dark);
+  text-decoration: none;
+}
+
+.nav-links a:hover {
+  color: var(--primary);
+}
+
+.hero {
+  height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,255,204,0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,255,204,0.1) 1px, transparent 1px);
+  background-size: 40px 40px;
+  animation: moveGrid 20s linear infinite;
+}
+
+@keyframes moveGrid {
+  from { background-position: 0 0; }
+  to { background-position: 40px 40px; }
+}
+
+.btn-primary {
+  background: var(--primary);
+  padding: 0.8rem 1.5rem;
+  text-decoration: none;
+  color: black;
+}
+
+.btn-secondary {
+  border: 1px solid var(--primary);
+  padding: 0.8rem 1.5rem;
+  color: var(--primary);
+  text-decoration: none;
+}
