@@ -1,23 +1,79 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>OUCSS CTF Platform</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="OUCSS CTF Platform - Train. Break. Learn. Repeat.">
+  <meta property="og:title" content="CTF | OUCSS">
+  <meta property="og:type" content="website">
+  <title>CTF | OUCSS</title>
   <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body>
+
+<header class="navbar">
+  <div class="nav-container">
+    <div class="logo"><a href="/">OUCSS</a></div>
+    <nav class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="lore.html">Lore</a>
+      <a href="team.html">Team</a>
+      <a href="projects.html">Member Projects</a>
+      <a href="blog.html">Blogs</a>
+      <a href="meetups.html">Meetups</a>
+      <a href="ctfd.html">CTF</a>
+      <a href="https://join.oucss.rocks" target="_blank">Join</a>
+    </nav>
+    <div class="nav-controls">
+      <button id="themeToggle">🌙</button>
+      <div class="hamburger" id="hamburger">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </div>
+</header>
 
 <section class="hero">
   <div class="hero-content">
     <h1>OUCSS CTF Platform</h1>
     <p>Train. Break. Learn. Repeat.</p>
-
     <div class="hero-buttons">
-      <a href="https://ctf.oucss.rocks" class="btn-primary">Launch CTFd</a>
-      <a href="/team.html" class="btn-secondary">Meet the Team</a>
+      <a href="https://ctf.oucss.rocks" class="btn-primary" target="_blank">Launch CTFd</a>
+      <a href="/leaderboard.html" class="btn-secondary">View Leaderboard</a>
     </div>
   </div>
   <div class="hero-grid"></div>
 </section>
 
+<!-- Info Section -->
+<section class="ctf-info-section">
+  <div class="ctf-info-container">
+    <div class="ctf-info-grid">
+
+      <div class="ctf-info-card">
+        <span class="ctf-info-icon">⚔️</span>
+        <h3>Compete</h3>
+        <p>Take on challenges across web, crypto, forensics, reverse engineering and more.</p>
+      </div>
+
+      <div class="ctf-info-card">
+        <span class="ctf-info-icon">📚</span>
+        <h3>Learn</h3>
+        <p>Every challenge is a lesson. Work through problems solo or team up with other members.</p>
+      </div>
+
+      <div class="ctf-info-card">
+        <span class="ctf-info-icon">🏆</span>
+        <h3>Rank Up</h3>
+        <p>Earn points, climb the leaderboard and prove your skills to the OUCSS community.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script src="/assets/js/theme.js"></script>
+<script src="/assets/js/main.js"></script>
 </body>
 </html>

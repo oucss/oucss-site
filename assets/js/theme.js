@@ -1,5 +1,2 @@
-const toggle = document.getElementById("themeToggle");
-
-toggle.addEventListener("click", () => {
-  document.body.classList.toggle("light-mode");
-});
+// Theme is handled by main.js
+// This file kept for compatibility
