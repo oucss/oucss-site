@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="OUCSS Learning Resources - Curated cybersecurity resources for all skill levels.">
+  <meta property="og:title" content="Resources | OUCSS">
+  <meta property="og:type" content="website">
+  <title>Resources | OUCSS</title>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+<header class="navbar">
+  <div class="nav-container">
+    <div class="logo"><a href="/">OUCSS</a></div>
+    <nav class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="lore.html">Lore</a>
+      <a href="team.html">Team</a>
+      <a href="projects.html">Member Projects</a>
+      <a href="blog.html">Blogs</a>
+      <a href="meetups.html">Meetups</a>
+      <a href="resources.html">Resources</a>
+      <a href="ctfd.html">CTF</a>
+      <a href="https://join.oucss.rocks" target="_blank">Join</a>
+    </nav>
+    <div class="nav-controls">
+      <button id="themeToggle">🌙</button>
+      <div class="hamburger" id="hamburger">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="page-hero">
+  <h1>Learning Resources</h1>
+  <p>From zero to elite. Curated by the community.</p>
+</section>
+
+<section class="resource-filter-section">
+  <div class="resource-filter-container">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="beginner">Beginner</button>
+    <button class="filter-btn" data-filter="intermediate">Intermediate</button>
+    <button class="filter-btn" data-filter="advanced">Advanced</button>
+  </div>
+</section>
+
+<section class="resources-section">
+  <div class="resources-container">
+
+    <div class="resource-group" data-level="beginner">
+      <div class="resource-group-header">
+        <span class="resource-level-badge beginner">Beginner</span>
+        <h2>Start Here</h2>
+      </div>
+      <div class="resource-grid">
+        <a href="https://tryhackme.com" target="_blank" class="resource-card">
+          <div class="resource-card-top"><span class="resource-type">Platform</span><span class="resource-free">Free</span></div>
+          <h3>TryHackMe</h3>
+          <p>Guided learning paths covering Linux, networking, web hacking and more. Best starting point for absolute beginners.</p>
+          <span class="resource-link">tryhackme.com →</span>
+        </a>
+        <a href="https://www.youtube.com/@TCMSecurityAcademy" target="_blank" class="resource-card">
+          <div class="resource-card-top"><span class="resource-type">Video</span><span class="resource-free">Free</span></div>
+          <h3>TCM Security</h3>
+          <p>Practical ethical hacking courses on YouTube. Covers networking, Python, Active Directory and penetration testing fundamentals.</p>
+          <span class="resource-link">YouTube →</span>
+        </a>
+        <a href="https://www.youtube.com/@NetworkChuck" target="_blank" class="resource-card">
+          <div class="resource-card-top"><span class="resource-type">Video</span><span class="resource-free">Free</span></div>
+          <h3>NetworkChuck</h3>
+          <p>Beginner-friendly networking and Linux content. Great for understanding core concepts before diving into hacking.</p>
+          <span class="resource-link">YouTube →</span>
+        </a>
+        <a href="https://picoctf.org" target="_blank" class="resource-card">
+          <div class="resource-card-top"><span class="resource-type">CTF</span><span class="resource-free">Free</span></div>
+          <h3>PicoCTF</h3>
+          <p>Beginner CTF platform by Carnegie Mellon University. Great for learning web, crypto, forensics and binary challenges.</p>
+          <span class="resource-link">picoctf.org →</span>
+        </a>
+        <a href="https://overthewire.org/wargames/" target="_blank" class="resource-card">
+          <div class="resource-card-top"><span class="resource-type">Wargame</span><span class="resource-free">Free</span></div>
+          <h3>OverTheWire</h3>
+          <p>Linux command line wargames starting from absolute basics. Bandit is the perfect first challenge for complete beginners.</p>
+          <span class="resource-link">overthewire.org →</span>
+        </a>
+        <a href="https://gchq.github.io/CyberChef" target="_blank" class="resource-card">
+          <div class="resource-card-top"><span class="resource-type">Tool</span><span class="resource-free">Free</span></div>
+          <h3>CyberChef</h3>
+          <p>The Swiss Army knife of encoding, decoding, encryption and data analysis. Essential for CTF crypto and forensics challenges.</p>
+          <span class="resource-link">cyberchef →</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="resource-group" data-level="intermediate">
+      <div class="resource-group-header">
+        <span class="resource-level-badge intermediate">Intermediate</span>
+        <h2>Level Up</h2>
+      </div>
+      <div class="resource-grid">
+        <a href="https://hackthebox.com" target="_blank" class="resource-card">
+          <div class="resource-card-top"><span class="resource-type">Platform</span><span class="resource-free">Free Tier</span></div>
+          <h3>Hack The Box</h3>
+          <p>Industry-standard penetration testing labs. OUCSS members compete here under the InfOUsec team banner.</p>
+          <span class="resource-link">hackthebox.com →</span>
+        </a>
+        <a href="https://portswigger.net/web-security" target="_blank" class="resource-card">
+          <div class="resource-card-top"><span class="resource-type">Academy</span><span class="resource-free">Free</span></div>
+          <h3>PortSwigger Web Academy</h3>
+          <p>The definitive web security learning platform. Covers SQLi, XSS, SSRF, XXE, JWT attacks and more with hands-on labs.</p>
+          <span class="resource-link">portswigger.net →</span>
+        </a>
+        <a href="https://ctftime.org" target="_blank" class="resource-card">
+          <div class="resource-card-top"><span class="resource-type">CTF</span><span class="resource-free">Free</span></div>
+          <h3>CTFtime</h3>
+          <p>Global CTF competition calendar. Find upcoming events, read writeups from past competitions and track team rankings.</p>
+          <span class="resource-link">ctftime.org →</span>
+        </a>
+        <a href="https://www.vulnhub.com" target="_blank" class="resource-card">
+          <div class="resource-card-top"><span class="resource-type">Labs</span><span class="resource-free">Free</span></div>
+          <h3>VulnHub</h3>
+          <p>Downloadable vulnerable VMs to practice on locally. Great for building a home lab and practising offline.</p>
+          <span class="resource-link">vulnhub.com →</span>
+        </a>
+        <a href="https://github.com/swisskyrepo/PayloadsAllTheThings" target="_blank" class="resource-card">
+          <div class="resource-card-top"><span class="resource-type">Reference</span><span class="resource-free">Free</span></div>
+          <h3>PayloadsAllTheThings</h3>
+          <p>Massive GitHub repository of payloads and bypass techniques for web application security testing.</p>
+          <span class="resource-link">github.com →</span>
+        </a>
+        <a href="https://book.hacktricks.xyz" target="_blank" class="resource-card">
+          <div class="resource-card-top"><span class="resource-type">Reference</span><span class="resource-free">Free</span></div>
+          <h3>HackTricks</h3>
+          <p>Comprehensive hacking methodology and techniques wiki. Invaluable during CTFs and penetration tests.</p>
+          <span class="resource-link">hacktricks.xyz →</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="resource-group" data-level="advanced">
+      <div class="resource-group-header">
+        <span class="resource-level-badge advanced">Advanced</span>
+        <h2>Go Deep</h2>
+      </div>
+      <div class="resource-grid">
+        <a href="https://exploit.education" target="_blank" class="resource-card">
+          <div class="resource-card-top"><span class="resource-type">Binary</span><span class="resource-free">Free</span></div>
+          <h3>Exploit Education</h3>
+          <p>Binary exploitation and vulnerability research training. Covers stack overflows, heap exploitation and format strings.</p>
+          <span class="resource-link">exploit.education →</span>
+        </a>
+        <a href="https://pwn.college" target="_blank" class="resource-card">
+          <div class="resource-card-top"><span class="resource-type">Binary</span><span class="resource-free">Free</span></div>
+          <h3>pwn.college</h3>
+          <p>ASU's binary exploitation education platform. Structured dojo covering assembly, reverse engineering and pwn techniques.</p>
+          <span class="resource-link">pwn.college →</span>
+        </a>
+        <a href="https://www.exploit-db.com" target="_blank" class="resource-card">
+          <div class="resource-card-top"><span class="resource-type">Research</span><span class="resource-free">Free</span></div>
+          <h3>Exploit-DB</h3>
+          <p>Archive of public exploits and proof-of-concept code. Used by professionals for research and penetration testing.</p>
+          <span class="resource-link">exploit-db.com →</span>
+        </a>
+        <a href="https://www.cvedetails.com" target="_blank" class="resource-card">
+          <div class="resource-card-top"><span class="resource-type">Research</span><span class="resource-free">Free</span></div>
+          <h3>CVE Details</h3>
+          <p>CVE vulnerability database. Essential for vulnerability research, understanding real-world exploits and staying current.</p>
+          <span class="resource-link">cvedetails.com →</span>
+        </a>
+        <a href="https://malwareunicorn.org" target="_blank" class="resource-card">
+          <div class="resource-card-top"><span class="resource-type">Malware</span><span class="resource-free">Free</span></div>
+          <h3>Malware Unicorn</h3>
+          <p>Malware analysis and reverse engineering workshops. Hands-on labs covering static and dynamic malware analysis techniques.</p>
+          <span class="resource-link">malwareunicorn.org →</span>
+        </a>
+        <a href="https://www.offensive-security.com/pwk-oscp/" target="_blank" class="resource-card">
+          <div class="resource-card-top"><span class="resource-type">Certification</span><span class="resource-free">Paid</span></div>
+          <h3>OSCP</h3>
+          <p>The gold standard penetration testing certification. Rigorous 24-hour exam requiring real exploitation of vulnerable machines.</p>
+          <span class="resource-link">offensive-security.com →</span>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script src="/assets/js/theme.js"></script>
+<script src="/assets/js/main.js"></script>
+<script>
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const resourceGroups = document.querySelectorAll('.resource-group');
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      resourceGroups.forEach(group => {
+        group.style.display = (filter === 'all' || group.dataset.level === filter) ? 'block' : 'none';
+      });
+    });
+  });
+</script>
+</body>
+</html>

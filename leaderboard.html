@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="OUCSS CTF Leaderboard - Top players in the community.">
+  <title>Leaderboard | OUCSS</title>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+<header class="navbar">
+  <div class="nav-container">
+    <div class="logo"><a href="/">OUCSS</a></div>
+    <nav class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="lore.html">Lore</a>
+      <a href="team.html">Team</a>
+      <a href="projects.html">Member Projects</a>
+      <a href="blog.html">Blogs</a>
+      <a href="meetups.html">Meetups</a>
+      <a href="resources.html">Resources</a>
+      <a href="ctfd.html">CTF</a>
+      <a href="https://join.oucss.rocks" target="_blank">Join</a>
+    </nav>
+    <div class="nav-controls">
+      <button id="themeToggle">🌙</button>
+      <div class="hamburger" id="hamburger">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="page-hero">
+  <h1>Leaderboard</h1>
+  <p>The scoreboard never lies.</p>
+</section>
+
+<section class="leaderboard-section">
+  <div class="leaderboard-container">
+    <div class="leaderboard-meta">
+      <span>Live from <a href="https://ctf.oucss.rocks" target="_blank">ctf.oucss.rocks</a></span>
+      <span id="lastUpdated">Updating...</span>
+    </div>
+    <div class="podium" id="podium">
+      <div class="podium-loading">Loading top players...</div>
+    </div>
+    <div class="lb-table-wrapper">
+      <table class="lb-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Player</th>
+            <th>Score</th>
+            <th>Solves</th>
+          </tr>
+        </thead>
+        <tbody id="lbBody">
+          <tr><td colspan="4" class="lb-loading">Fetching scores...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<script src="/assets/js/theme.js"></script>
+<script src="/assets/js/main.js"></script>
+<script>
+  const CTFD_URL = 'https://ctf.oucss.rocks';
+
+  async function fetchLeaderboard() {
+    try {
+      const res = await fetch(`${CTFD_URL}/api/v1/scoreboard?page=1`);
+      const data = await res.json();
+      const players = data.data || [];
+      renderPodium(players.slice(0, 3));
+      renderTable(players);
+      document.getElementById('lastUpdated').textContent = 'Updated ' + new Date().toLocaleTimeString();
+    } catch (err) {
+      document.getElementById('lbBody').innerHTML = '<tr><td colspan="4" class="lb-loading">No active CTF scores available.</td></tr>';
+      document.getElementById('podium').innerHTML = '<div class="podium-loading">No active CTF scores available.</div>';
+    }
+  }
+
+  function renderPodium(top) {
+    const medals = ['🥇', '🥈', '🥉'];
+    const order = [1, 0, 2];
+    const podium = document.getElementById('podium');
+    if (!top.length) { podium.innerHTML = '<div class="podium-loading">No scores yet.</div>'; return; }
+    podium.innerHTML = order.map(i => {
+      const p = top[i];
+      if (!p) return '';
+      return `<div class="podium-place ${i === 0 ? 'first' : ''}">
+        <span class="podium-medal">${medals[i]}</span>
+        <span class="podium-name">${p.name}</span>
+        <span class="podium-score">${p.score} pts</span>
+        <div class="podium-bar pos-${i + 1}"></div>
+      </div>`;
+    }).join('');
+  }
+
+  function renderTable(players) {
+    const tbody = document.getElementById('lbBody');
+    if (!players.length) { tbody.innerHTML = '<tr><td colspan="4" class="lb-loading">No scores yet.</td></tr>'; return; }
+    const medals = ['🥇', '🥈', '🥉'];
+    tbody.innerHTML = players.map((p, i) => `
+      <tr>
+        <td class="lb-rank">${medals[i] || i + 1}</td>
+        <td>${p.name}</td>
+        <td class="lb-score">${p.score}</td>
+        <td>${p.solves || '-'}</td>
+      </tr>`).join('');
+  }
+
+  fetchLeaderboard();
+  setInterval(fetchLeaderboard, 60000);
+</script>
+</body>
+</html>

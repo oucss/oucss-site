@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 | OUCSS</title>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+<header class="navbar">
+  <div class="nav-container">
+    <div class="logo"><a href="/">OUCSS</a></div>
+    <nav class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="ctfd.html">CTF</a>
+      <a href="https://join.oucss.rocks" target="_blank">Join</a>
+    </nav>
+    <div class="nav-controls">
+      <button id="themeToggle">🌙</button>
+      <div class="hamburger" id="hamburger">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="notfound-section">
+  <div class="notfound-container">
+    <div class="notfound-code">404</div>
+    <div class="notfound-terminal">
+      <div class="terminal-bar">
+        <span class="terminal-dot red"></span>
+        <span class="terminal-dot yellow"></span>
+        <span class="terminal-dot green"></span>
+        <span class="terminal-title">bash — oucss@terminal</span>
+      </div>
+      <div class="terminal-body">
+        <p><span class="terminal-prompt">$</span> curl https://oucss.rocks<span class="notfound-path" id="errorPath"></span></p>
+        <p class="notfound-error">curl: (404) NOT FOUND</p>
+        <p><span class="terminal-prompt">$</span> whoami</p>
+        <p class="notfound-output">lost_user</p>
+        <p><span class="terminal-prompt">$</span> ls /pages</p>
+        <p class="notfound-output">index.html &nbsp; about.html &nbsp; lore.html &nbsp; team.html</p>
+        <p class="notfound-output">blog.html &nbsp; resources.html &nbsp; meetups.html &nbsp; ctfd.html</p>
+        <p><span class="terminal-prompt">$</span> cd ~</p>
+        <div class="notfound-actions">
+          <a href="/" class="btn-primary">Return Home</a>
+          <a href="https://join.oucss.rocks" target="_blank" class="btn-secondary">Join Discord</a>
+        </div>
+        <p class="notfound-blink"><span class="terminal-prompt">$</span> <span class="cursor">█</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="/assets/js/theme.js"></script>
+<script src="/assets/js/main.js"></script>
+<script>
+  document.getElementById('errorPath').textContent = window.location.pathname;
+</script>
+</body>
+</html>
