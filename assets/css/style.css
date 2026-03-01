@@ -1104,16 +1104,12 @@ section {
   letter-spacing: 1px;
 }
 /* =========================
-   NAV ACTIVE STATE
+   NAV ACTIVE + LOGO LINK
 ========================= */
 
 .nav-active {
   color: var(--primary) !important;
 }
-
-/* =========================
-   LOGO LINK
-========================= */
 
 .logo a {
   color: inherit;
@@ -1128,7 +1124,7 @@ section {
   font-size: 0.8rem;
   opacity: 0.6;
   font-family: monospace;
-  margin: 0;
+  margin: 0.25rem 0;
 }
 
 /* =========================
@@ -1211,18 +1207,14 @@ body {
 }
 
 @media (max-width: 900px) {
-  .footer-grid {
-    grid-template-columns: 1fr 1fr;
-  }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
 }
 
 @media (max-width: 500px) {
-  .footer-grid {
-    grid-template-columns: 1fr;
-  }
+  .footer-grid { grid-template-columns: 1fr; }
 }
 
-.footer-brand .footer-logo {
+.footer-logo {
   font-weight: bold;
   font-size: 1.3rem;
   color: var(--primary);
@@ -1585,6 +1577,33 @@ body {
 @keyframes blink { 50% { opacity: 0; } }
 
 /* =========================
-   FAVICON HELPER
+   LEADERBOARD EMBED
 ========================= */
-/* favicon.svg handled in <head> of each page */
+
+.lb-open-link {
+  font-size: 0.8rem;
+  color: var(--primary);
+  text-decoration: none;
+  font-family: monospace;
+  transition: 0.2s ease;
+}
+
+.lb-open-link:hover {
+  letter-spacing: 1px;
+}
+
+.lb-embed-wrapper {
+  width: 100%;
+  border: 1px solid rgba(0,255,204,0.2);
+  background: rgba(0,0,0,0.3);
+  overflow: hidden;
+  min-height: 600px;
+}
+
+.lb-embed {
+  width: 100%;
+  height: 750px;
+  border: none;
+  display: block;
+  filter: invert(1) hue-rotate(180deg);
+}
