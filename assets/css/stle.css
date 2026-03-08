@@ -4,7 +4,7 @@
 
 :root {
   --bg-dark: #0d1117;
-  --bg-light: #e2e2e2;
+  --bg-light: #f4f4f4;
   --primary: #00ffcc;
   --accent: #8a2be2;
   --text-dark: #e6edf3;
@@ -24,56 +24,36 @@ body {
 }
 
 body.light-mode {
-  background: #e2e2e2;
-  color: #1a1a1a;
-  --text-dark: #1a1a1a;
-  --primary: #007a60;
-  --bg-dark: #e2e2e2;
-  --bg-light: #e2e2e2;
+  background: var(--bg-light);
+  color: var(--text-light);
 }
 
 /* =========================
    LIGHT MODE OVERRIDES
 ========================= */
 
-/* --- Navbar --- */
+/* Navbar */
 body.light-mode .navbar {
-  background: rgba(210,210,210,0.97);
-  border-bottom: 1px solid rgba(0,0,0,0.12);
+  background: rgba(244,244,244,0.92);
+  border-bottom: 1px solid rgba(0,0,0,0.08);
 }
-body.light-mode .nav-links a { color: #1a1a1a; }
-body.light-mode .hamburger span { background: #1a1a1a; }
+
+body.light-mode .nav-links a {
+  color: #222;
+}
+
+body.light-mode .hamburger span {
+  background: #222;
+}
 
 @media (max-width: 768px) {
   body.light-mode .nav-links {
-    background: #f4f4f4;
-    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(244,244,244,0.97);
+    border: 1px solid rgba(0,0,0,0.08);
   }
 }
 
-/* --- Buttons --- */
-body.light-mode .btn-secondary {
-  color: #007a60;
-  border-color: #007a60;
-}
-body.light-mode .btn-secondary:hover {
-  background: #007a60;
-  color: #fff;
-}
-
-/* --- Page hero --- */
-body.light-mode .page-hero {
-  background: linear-gradient(to bottom, rgba(0,160,120,0.07), transparent);
-}
-
-/* --- Hero grid --- */
-body.light-mode .hero-grid {
-  background-image:
-    linear-gradient(rgba(0,120,90,0.12) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,120,90,0.12) 1px, transparent 1px);
-}
-
-/* --- All cards: white so they pop off the grey background --- */
+/* Cards — team, project, meetup, ctf-info, progress */
 body.light-mode .team-card,
 body.light-mode .project-card,
 body.light-mode .meetup-card,
@@ -84,181 +64,153 @@ body.light-mode .lore-entry-content,
 body.light-mode .lore-event-card,
 body.light-mode .resource-card,
 body.light-mode .blog-card {
-  background: #ffffff;
-  border-color: #c8c8c8;
-  color: #1a1a1a;
-}
-body.light-mode .meetup-card.featured {
-  background: #f0fdf9;
-  border-color: #34c997;
-}
-body.light-mode .lore-event-card.add-yours {
-  border-color: #b0b0b0;
+  background: #fff;
+  border-color: rgba(0,0,0,0.1);
+  color: var(--text-light);
 }
 
-/* --- Card body text: override all opacity-dimmed paragraphs --- */
-body.light-mode .team-card p,
-body.light-mode .project-card p,
-body.light-mode .meetup-info p,
-body.light-mode .meetup-suggest-container p,
-body.light-mode .ctf-info-card p,
-body.light-mode .progress-card p,
-body.light-mode .step-card p,
-body.light-mode .lore-entry-content p,
-body.light-mode .lore-intro-container p,
-body.light-mode .lore-event-card p,
-body.light-mode .resource-card p,
+body.light-mode .meetup-card.featured {
+  background: rgba(0,200,160,0.06);
+  border-color: rgba(0,180,140,0.3);
+}
+
+body.light-mode .lore-event-card.add-yours {
+  border-color: rgba(0,0,0,0.15);
+}
+
+/* Acknowledgement box */
+body.light-mode .acknowledgement-box {
+  background: #fff;
+  border-left-color: var(--primary);
+}
+
+/* Terminal widgets */
+body.light-mode .blog-submit-terminal,
+body.light-mode .notfound-terminal {
+  background: #1a1a2e;
+  border-color: rgba(0,255,204,0.4);
+}
+
+body.light-mode .terminal-bar {
+  background: rgba(255,255,255,0.08);
+  border-bottom-color: rgba(255,255,255,0.08);
+}
+
+/* Filter buttons */
+body.light-mode .filter-btn {
+  border-color: rgba(0,0,0,0.15);
+  color: #333;
+  background: #fff;
+}
+
+body.light-mode .filter-btn:hover,
+body.light-mode .filter-btn.active {
+  border-color: var(--primary);
+  color: #007a60;
+  background: rgba(0,255,204,0.08);
+}
+
+/* Blog titles and text */
+body.light-mode .blog-title {
+  color: #111;
+}
+
 body.light-mode .blog-excerpt,
-body.light-mode .about-container p,
-body.light-mode .hero p {
-  opacity: 1;
+body.light-mode .blog-meta,
+body.light-mode .blog-date {
   color: #444;
 }
 
-/* --- Force ALL headings dark --- */
-body.light-mode h1,
-body.light-mode h2,
-body.light-mode h3,
-body.light-mode h4 {
-  color: #1a1a1a !important;
-}
-
-/* --- Force ALL body text readable --- */
-body.light-mode p,
-body.light-mode li {
-  color: #444 !important;
-  opacity: 1 !important;
-}
-
-/* --- Force all meta/label text readable --- */
-body.light-mode .blog-date          { color: #888 !important;   opacity: 1 !important; }
-body.light-mode .blog-author        { color: #007a60 !important; opacity: 1 !important; }
-body.light-mode .blog-read-more     { color: #007a60 !important; }
-body.light-mode .project-author     { color: #666 !important;   opacity: 1 !important; }
-body.light-mode .meetup-month       { color: #555 !important;   opacity: 1 !important; }
-body.light-mode .meetup-tag         { color: #007a60 !important; opacity: 1 !important; }
-body.light-mode .lore-events-subtitle { color: #555 !important; opacity: 1 !important; }
-body.light-mode .lore-file-date     { color: #777 !important;   opacity: 1 !important; }
-body.light-mode .lore-section-title { color: #007a60 !important; opacity: 1 !important; }
-body.light-mode .resource-link      { color: #007a60 !important; opacity: 1 !important; }
-body.light-mode .step-number        { color: #34c997 !important; opacity: 1 !important; }
-body.light-mode .role               { color: #007a60 !important; }
-body.light-mode .lore-year          { color: #007a60 !important; }
-body.light-mode .lore-event-year    { color: #007a60 !important; opacity: 1 !important; }
-body.light-mode .meetup-day         { color: #007a60 !important; }
-body.light-mode .project-tag        { color: #007a60 !important; }
-
-/* --- Keep terminal internals neon (they stay dark bg) --- */
-body.light-mode .blog-submit-terminal h1,
-body.light-mode .blog-submit-terminal h2,
-body.light-mode .blog-submit-terminal h3,
-body.light-mode .blog-submit-terminal p,
-body.light-mode .notfound-terminal h1,
-body.light-mode .notfound-terminal h2,
-body.light-mode .notfound-terminal h3,
-body.light-mode .notfound-terminal p {
-  color: #e6edf3 !important;
-  opacity: 0.85 !important;
-}
-
-/* --- Neon tag colours: replace with dark-bg-friendly equivalents --- */
-/* Blog tags */
-body.light-mode .blog-tag.ctf        { color: #007a60; border-color: rgba(0,122,96,0.35);   background: rgba(0,122,96,0.09); }
-body.light-mode .blog-tag.research   { color: #c0392b; border-color: rgba(192,57,43,0.35);  background: rgba(192,57,43,0.08); }
-body.light-mode .blog-tag.tooling    { color: #b8860b; border-color: rgba(184,134,11,0.35); background: rgba(184,134,11,0.08); }
-body.light-mode .blog-tag.walkthrough{ color: #2e7d32; border-color: rgba(46,125,50,0.35);  background: rgba(46,125,50,0.08); }
-body.light-mode .blog-tag.blog-sites { color: #6a1fc2; border-color: rgba(106,31,194,0.35); background: rgba(106,31,194,0.08); }
-
-/* Resource level badges */
-body.light-mode .resource-level-badge.beginner     { color: #2e7d32; border-color: #2e7d3266; background: rgba(46,125,50,0.07); }
-body.light-mode .resource-level-badge.intermediate { color: #b8860b; border-color: #b8860b66; background: rgba(184,134,11,0.07); }
-body.light-mode .resource-level-badge.advanced     { color: #c0392b; border-color: #c0392b66; background: rgba(192,57,43,0.07); }
-
-/* Lore entry tags */
-body.light-mode .lore-entry-tag.origin     { color: #007a60; border-color: #34c99766; }
-body.light-mode .lore-entry-tag.expansion  { color: #b8860b; border-color: #b8860b66; }
-body.light-mode .lore-entry-tag.milestone  { color: #2e7d32; border-color: #2e7d3266; }
-body.light-mode .lore-entry-tag.operations { color: #1565c0; border-color: #1565c066; }
-body.light-mode .lore-entry-tag.present    { color: #c0392b; border-color: #c0392b66; }
-body.light-mode .lore-entry-tag.future-tag { color: #6a1fc2; border-color: #6a1fc266; }
-
-/* --- Acknowledgement box --- */
-body.light-mode .acknowledgement-box {
-  background: #f8f8f8;
-  border-left-color: #34c997;
-  color: #1a1a1a;
-}
-
-/* --- Section backgrounds --- */
+/* Section backgrounds with subtle tints */
 body.light-mode .meetup-join-section {
-  background: #d8d8d8;
-  border-top-color: #c0c0c0;
-  border-bottom-color: #c0c0c0;
+  background: rgba(0,200,160,0.04);
+  border-top-color: rgba(0,0,0,0.06);
+  border-bottom-color: rgba(0,0,0,0.06);
 }
+
 body.light-mode .lore-events-section {
-  background: #d8d8d8;
-  border-top-color: #c0c0c0;
+  background: rgba(0,200,160,0.03);
+  border-top-color: rgba(0,0,0,0.06);
 }
+
 body.light-mode .lore-intro-section {
-  border-bottom-color: #c0c0c0;
+  border-bottom-color: rgba(0,0,0,0.08);
 }
 
-/* --- Lore timeline dot --- */
-body.light-mode .lore-dot { border-color: #e2e2e2; }
+/* Lore timeline dot border */
+body.light-mode .lore-dot {
+  border-color: var(--bg-light);
+}
 
-/* --- Resource group header --- */
-body.light-mode .resource-group-header h2 { color: #1a1a1a; }
+/* Resource group header text */
+body.light-mode .resource-group-header h2 {
+  color: #111;
+}
 
-/* --- Filter buttons --- */
-body.light-mode .filter-btn {
-  background: #fff;
-  border-color: #b0b0b0;
+/* Resource cards text */
+body.light-mode .resource-card {
+  color: #111;
+}
+
+body.light-mode .resource-card p {
+  color: #444;
+}
+
+/* Footer */
+body.light-mode .site-footer {
+  background: #e8e8e8;
+  border-top: 1px solid rgba(0,0,0,0.1);
+}
+
+body.light-mode .footer-col a {
   color: #333;
 }
-body.light-mode .filter-btn:hover,
-body.light-mode .filter-btn.active {
-  border-color: #007a60;
-  color: #007a60;
-  background: rgba(0,122,96,0.08);
+
+body.light-mode .footer-socials a {
+  color: #333;
 }
 
-/* --- Terminal widgets (kept dark intentionally) --- */
-body.light-mode .blog-submit-terminal,
-body.light-mode .notfound-terminal {
-  background: #16213e;
-  border-color: rgba(0,255,204,0.4);
-  --primary: #00ffcc;
-  --text-dark: #e6edf3;
-}
-body.light-mode .terminal-bar {
-  background: rgba(255,255,255,0.06);
-  border-bottom-color: rgba(255,255,255,0.06);
+body.light-mode .footer-bottom {
+  border-top-color: rgba(0,0,0,0.1);
 }
 
-/* --- Leaderboard --- */
+/* Leaderboard embed wrapper */
 body.light-mode .lb-embed-wrapper {
   background: #fff;
-  border-color: #c8e6de;
+  border-color: rgba(0,180,140,0.3);
 }
-body.light-mode .lb-table td { border-bottom-color: rgba(0,0,0,0.07); }
-body.light-mode .lb-table tr:hover td { background: rgba(0,122,96,0.05); }
-body.light-mode .leaderboard-meta { opacity: 1; color: #555; }
-body.light-mode .leaderboard-meta a { color: #007a60; }
-body.light-mode .lb-open-link { color: #007a60; }
-body.light-mode .podium-name { color: #1a1a1a; }
 
-/* --- Footer --- */
-body.light-mode .site-footer {
-  background: #cacaca;
-  border-top: 1px solid #b0b0b0;
+/* Leaderboard table */
+body.light-mode .lb-table td {
+  border-bottom-color: rgba(0,0,0,0.06);
 }
-body.light-mode .footer-brand p { opacity: 1; color: #444; }
-body.light-mode .footer-col a { color: #333; opacity: 1; }
-body.light-mode .footer-col a:hover { color: #007a60; }
-body.light-mode .footer-socials a { color: #444; opacity: 1; }
-body.light-mode .footer-socials a:hover { color: #007a60; }
-body.light-mode .footer-bottom { border-top-color: #b0b0b0; }
-body.light-mode .footer-bottom p { opacity: 1; color: #666; }
+
+body.light-mode .lb-table tr:hover td {
+  background: rgba(0,200,160,0.05);
+}
+
+/* Page hero gradient */
+body.light-mode .page-hero {
+  background: linear-gradient(to bottom, rgba(0,200,160,0.06), transparent);
+}
+
+/* Hero grid — soften on light bg */
+body.light-mode .hero-grid {
+  background-image:
+    linear-gradient(rgba(0,160,120,0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,160,120,0.1) 1px, transparent 1px);
+}
+
+/* Button secondary on light */
+body.light-mode .btn-secondary {
+  color: #007a60;
+  border-color: #007a60;
+}
+
+body.light-mode .btn-secondary:hover {
+  background: #007a60;
+  color: #fff;
+}
 
 h1, h2, h3 {
   margin-top: 0;
