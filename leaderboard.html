@@ -2,77 +2,160 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <title>OUCSS Leaderboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="OUCSS CTF Leaderboard - Top players in the community.">
-  <meta property="og:title" content="Leaderboard | OUCSS">
-  <meta property="og:type" content="website">
-  <title>Leaderboard | OUCSS</title>
-  <link rel="icon" type="image/x-icon" href="/favicon.ico">
-  <link rel="stylesheet" href="/assets/css/style.css">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+    }
+
+    .back-btn {
+      margin-bottom: 20px;
+      padding: 10px 20px;
+      background: #334155;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .back-btn:hover {
+      background: #475569;
+    }
+
+    table {
+      width: 80%;
+      margin: auto;
+      border-collapse: collapse;
+      background: #1e293b;
+    }
+
+    th, td {
+      padding: 12px;
+    }
+
+    th {
+      background: #334155;
+    }
+
+    tr:nth-child(even) {
+      background: #0f172a;
+    }
+
+    tr:nth-child(odd) {
+      background: #1e293b;
+    }
+  </style>
 </head>
 <body>
-<header class="navbar">
-  <div class="nav-container">
-    <div class="logo"><a href="/">OUCSS</a></div>
-    <nav class="nav-links" id="navLinks">
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="lore.html">Lore</a>
-      <a href="team.html">Team</a>
-      <a href="projects.html">Member Projects</a>
-      <a href="blog.html">Blogs</a>
-      <a href="meetups.html">Meetups</a>
-      <a href="resources.html">Resources</a>
-      <a href="challenge.html">Challenge</a>
-      <a href="https://join.oucss.rocks" target="_blank">Join</a>
-    </nav>
-    <div class="nav-controls">
-      <button id="themeToggle">🌙</button>
-      <div class="hamburger" id="hamburger">
-        <span></span><span></span><span></span>
-      </div>
-    </div>
-  </div>
-</header>
 
-<section class="page-hero">
-  <h1>Leaderboard</h1>
-  <p>The scoreboard never lies.</p>
-</section>
+<h1>🏆 OUCSS CTF Leaderboard</h1>
 
-<section class="leaderboard-section">
-  <div class="leaderboard-container">
+<button onclick="goBack()" class="back-btn">⬅ Back</button>
 
-    <!-- Add Player Form -->
-    <div class="add-player-form" style="margin-bottom: 2rem; text-align: center;">
-      <h3>Add New Player</h3>
-      <input type="text" id="newUsername" placeholder="Username" style="margin-right: 0.5rem; padding: 0.5rem;">
-      <input type="number" id="newScore" placeholder="Score" style="margin-right: 0.5rem; padding: 0.5rem;">
-      <button onclick="addNewPlayer()" style="padding: 0.5rem 1rem;">Add Player</button>
-    </div>
+<table id="leaderboard">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Team</th>
+      <th>Score</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
 
-    <div class="terminal-window">
-      <div class="terminal-header">
-        <span class="terminal-title">system_admin@oucss:~/leaderboard</span>
-      </div>
-      <table id="leaderboardTable" class="terminal-table">
-        <thead>
-          <tr>
-            <th>RANK</th>
-            <th>USER</th>
-            <th>SCORE</th>
-          </tr>
-        </thead>
-        <tbody id="leaderboardBody">
-          <tr>
-            <td colspan="3" class="loading">Initializing connection...</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</section>
+<script>
+const API_URL = "https://ctf.oucss.rocks/api/v1/scoreboard";
 
-<script src="/assets/js/main.js"></script>
+let lastScores = {};
+let firstLoad = true;
+
+// 🔙 smart back button
+function goBack() {
+  if (document.referrer) {
+    window.history.back();
+  } else {
+    window.location.href = "index.html";
+  }
+}
+
+async function loadLeaderboard() {
+  try {
+    const response = await fetch(API_URL);
+    const result = await response.json();
+
+    const tbody = document.querySelector("#leaderboard tbody");
+    tbody.innerHTML = "";
+
+    result.data.forEach((team, index) => {
+      const row = document.createElement("tr");
+
+      row.innerHTML = `
+        <td>${index + 1}</td>
+        <td>${team.name}</td>
+        <td>${team.score}</td>
+      `;
+
+      tbody.appendChild(row);
+
+      // 🚨 detect solves (skip first load)
+      const oldScore = lastScores[team.id];
+
+      if (!firstLoad && oldScore !== undefined && team.score > oldScore) {
+        const diff = team.score - oldScore;
+        showSolveAlert(team.name, diff);
+      }
+
+      lastScores[team.id] = team.score;
+    });
+
+    firstLoad = false;
+
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
+
+// 🎉 popup alert
+function showSolveAlert(teamName, points) {
+  const alertBox = document.createElement("div");
+
+  alertBox.innerHTML = `🎉 ${teamName} solved a challenge (+${points})`;
+
+  const existing = document.querySelectorAll(".solve-alert").length;
+
+  alertBox.classList.add("solve-alert");
+  alertBox.style.position = "fixed";
+  alertBox.style.bottom = (20 + existing * 70) + "px";
+  alertBox.style.right = "20px";
+  alertBox.style.background = "#22c55e";
+  alertBox.style.color = "white";
+  alertBox.style.padding = "15px 20px";
+  alertBox.style.borderRadius = "10px";
+  alertBox.style.boxShadow = "0 0 10px rgba(0,0,0,0.3)";
+  alertBox.style.zIndex = "9999";
+
+  document.body.appendChild(alertBox);
+
+  setTimeout(() => {
+    alertBox.remove();
+  }, 4000);
+}
+
+// run
+loadLeaderboard();
+setInterval(loadLeaderboard, 10000);
+</script>
+
 </body>
 </html>

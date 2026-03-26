@@ -51,16 +51,8 @@ function fetchLeaderboard() {
   const tableBody = document.getElementById('leaderboardBody');
   if (!tableBody) return;
   
-  // Load from localStorage, or use defaults
-  let players = JSON.parse(localStorage.getItem('leaderboard')) || [
-    { username: "Alice", score: 150 },
-    { username: "Bob", score: 120 },
-    { username: "Charlie", score: 100 },
-    { username: "Diana", score: 80 },
-    { username: "Eve", score: 60 },
-    { username: "Frank", score: 40 },
-    { username: "Grace", score: 20 }
-  ];
+  // Load from localStorage, or use empty array
+  let players = JSON.parse(localStorage.getItem('leaderboard')) || [];
 
   // Sort by score descending
   players.sort((a, b) => b.score - a.score);
@@ -92,6 +84,54 @@ function addNewPlayer() {
     document.getElementById('newScore').value = '';
   } else {
     alert('Please enter a valid username and score.');
+  }
+}
+
+// Function to submit flag
+function submitFlag() {
+  alert('Flag submit function called!');
+  console.log('submitFlag called');
+  const flag = document.getElementById('flagInput').value.trim();
+  const feedback = document.getElementById('flagFeedback');
+  console.log('Submitted flag:', flag);
+  
+  // Correct flag (you can change this)
+  const correctFlag = 'OUCSS{test}';
+  
+  if (flag.toLowerCase() === correctFlag.toLowerCase()) {
+    console.log('Flag correct');
+    // Flag correct, show username input
+    document.getElementById('flagInput').style.display = 'none';
+    document.getElementById('flagSubmitBtn').style.display = 'none';
+    document.getElementById('usernameRow').style.display = 'flex';
+    feedback.innerHTML = '<span style="color:#a8ff78">✓ Flag correct! Enter your username below.</span>';
+  } else {
+    console.log('Flag incorrect');
+    feedback.innerHTML = '<span style="color:#ff6b6b">✗ Incorrect flag. Try again!</span>';
+  }
+}
+
+// Function to submit username
+function submitUsername() {
+  const username = document.getElementById('usernameInput').value.trim();
+  const feedback = document.getElementById('flagFeedback');
+  
+  if (username) {
+    // Add to leaderboard with score 100
+    let players = JSON.parse(localStorage.getItem('leaderboard')) || [];
+    players.push({ username: username, score: 100 });
+    localStorage.setItem('leaderboard', JSON.stringify(players));
+    
+    feedback.innerHTML = '<span style="color:#a8ff78">✓ Success! You\'ve been added to the leaderboard.</span>';
+    document.getElementById('usernameInput').value = '';
+    document.getElementById('usernameRow').style.display = 'none';
+    
+    // Redirect to leaderboard
+    setTimeout(() => {
+      window.location.href = 'leaderboard.html';
+    }, 2000);
+  } else {
+    feedback.innerHTML = '<span style="color:#ff6b6b">Please enter a username.</span>';
   }
 }
 
