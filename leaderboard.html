@@ -3,15 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="OUCSS CTF Leaderboard - See how you rank against other members.">
+  <meta name="description" content="OUCSS CTF Leaderboard - Top players in the community.">
   <meta property="og:title" content="Leaderboard | OUCSS">
   <meta property="og:type" content="website">
   <title>Leaderboard | OUCSS</title>
-  <link rel="stylesheet" href="/assets/css/style.css">
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body>
-
 <header class="navbar">
   <div class="nav-container">
     <div class="logo"><a href="/">OUCSS</a></div>
@@ -36,16 +35,22 @@
   </div>
 </header>
 
-<section class="hero">
-  <div class="hero-content">
-    <h1>CTF Leaderboard</h1>
-    <p>See how you rank against other OUCSS members.</p>
-  </div>
-  <div class="hero-grid"></div>
+<section class="page-hero">
+  <h1>Leaderboard</h1>
+  <p>The scoreboard never lies.</p>
 </section>
 
 <section class="leaderboard-section">
   <div class="leaderboard-container">
+
+    <!-- Add Player Form -->
+    <div class="add-player-form" style="margin-bottom: 2rem; text-align: center;">
+      <h3>Add New Player</h3>
+      <input type="text" id="newUsername" placeholder="Username" style="margin-right: 0.5rem; padding: 0.5rem;">
+      <input type="number" id="newScore" placeholder="Score" style="margin-right: 0.5rem; padding: 0.5rem;">
+      <button onclick="addNewPlayer()" style="padding: 0.5rem 1rem;">Add Player</button>
+    </div>
+
     <div class="terminal-window">
       <div class="terminal-header">
         <span class="terminal-title">system_admin@oucss:~/leaderboard</span>
@@ -68,7 +73,6 @@
   </div>
 </section>
 
-<script src="/assets/js/theme.js"></script>
 <script src="/assets/js/main.js"></script>
 </body>
 </html>

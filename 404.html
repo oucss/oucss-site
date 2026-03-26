@@ -14,6 +14,13 @@
     <nav class="nav-links" id="navLinks">
       <a href="index.html">Home</a>
       <a href="about.html">About</a>
+      <a href="lore.html">Lore</a>
+      <a href="team.html">Team</a>
+      <a href="projects.html">Member Projects</a>
+      <a href="blog.html">Blogs</a>
+      <a href="meetups.html">Meetups</a>
+      <a href="resources.html">Resources</a>
+      <a href="leaderboard.html">Leaderboard</a>
       <a href="challenge.html">Challenge</a>
       <a href="https://join.oucss.rocks" target="_blank">Join</a>
     </nav>
@@ -55,10 +62,11 @@
   </div>
 </section>
 
-<script src="/assets/js/theme.js"></script>
 <script src="/assets/js/main.js"></script>
 <script>
-  document.getElementById('errorPath').textContent = window.location.pathname;
+  // Show the current path in the terminal
+  const path = window.location.pathname;
+  document.getElementById('errorPath').textContent = path;
 </script>
 </body>
 </html>

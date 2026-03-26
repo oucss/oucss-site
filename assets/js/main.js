@@ -38,21 +38,21 @@ document.querySelectorAll('.nav-links a').forEach(link => {
   if (!href || href.startsWith('http')) return;
   const pageName = currentPath.split('/').pop() || 'index.html';
   const linkName = href.split('/').pop();
-  if (
-    href === currentPath ||
-    linkName === pageName ||
-    (currentPath === '/' && (href === '/' || href === 'index.html'))
-  ) {
-    link.classList.add('nav-active');
+  if (pageName === linkName) {
+    link.classList.add('active');
   }
 });
 
-async function fetchLeaderboard() {
+// ================================
+// Leaderboard Functionality
+// ================================
+function fetchLeaderboard() {
   console.log('Leaderboard loading...');
   const tableBody = document.getElementById('leaderboardBody');
+  if (!tableBody) return;
   
-  // Sample data for testing
-  const players = [
+  // Load from localStorage, or use defaults
+  let players = JSON.parse(localStorage.getItem('leaderboard')) || [
     { username: "Alice", score: 150 },
     { username: "Bob", score: 120 },
     { username: "Charlie", score: 100 },
@@ -61,6 +61,9 @@ async function fetchLeaderboard() {
     { username: "Frank", score: 40 },
     { username: "Grace", score: 20 }
   ];
+
+  // Sort by score descending
+  players.sort((a, b) => b.score - a.score);
 
   tableBody.innerHTML = '';
   players.forEach((player, index) => {
@@ -75,22 +78,38 @@ async function fetchLeaderboard() {
   });
 }
 
-// Run the function when the page loads
+// Function to add a new player (for testing/demo)
+function addNewPlayer() {
+  const username = document.getElementById('newUsername').value.trim();
+  const score = parseInt(document.getElementById('newScore').value);
+  if (username && !isNaN(score)) {
+    let players = JSON.parse(localStorage.getItem('leaderboard')) || [];
+    players.push({ username, score });
+    localStorage.setItem('leaderboard', JSON.stringify(players));
+    fetchLeaderboard(); // Refresh the display
+    // Clear inputs
+    document.getElementById('newUsername').value = '';
+    document.getElementById('newScore').value = '';
+  } else {
+    alert('Please enter a valid username and score.');
+  }
+}
+
+// Load leaderboard if on leaderboard page
 if (document.getElementById('leaderboardTable')) {
   fetchLeaderboard();
 }
 
 // ================================
-// Inject Footer into every page
+// Dynamic Footer Injection
 // ================================
-const footer = document.createElement('footer');
-footer.className = 'site-footer';
-footer.innerHTML = `
+const footerHTML = `
+<footer class="main-footer">
   <div class="footer-container">
     <div class="footer-grid">
-      <div class="footer-brand">
-        <div class="footer-logo">OUCSS</div>
-        <p>Open University Cyber Security Society.<br>Beginner to elite. Offensive. Defensive. Relentless.</p>
+      <div class="footer-col branding">
+        <h3 class="footer-logo">OUCSS</h3>
+        <p>The Cyber Security Society for Open University students.</p>
       </div>
       <div class="footer-col">
         <h4>Navigate</h4>
@@ -122,9 +141,10 @@ footer.innerHTML = `
       <div class="footer-socials">
         <a href="https://join.oucss.rocks" target="_blank">Discord</a>
         <a href="https://github.com/oucss" target="_blank">GitHub</a>
-        <a href="https://ctftime.org/team/150351" target="_blank">CTFtime</a>
       </div>
     </div>
   </div>
+</footer>
 `;
-document.body.appendChild(footer);
+
+document.body.insertAdjacentHTML('beforeend', footerHTML);
