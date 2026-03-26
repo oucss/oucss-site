@@ -47,6 +47,39 @@ document.querySelectorAll('.nav-links a').forEach(link => {
   }
 });
 
+async function fetchLeaderboard() {
+  console.log('Leaderboard loading...');
+  const tableBody = document.getElementById('leaderboardBody');
+  
+  // Sample data for testing
+  const players = [
+    { username: "Alice", score: 150 },
+    { username: "Bob", score: 120 },
+    { username: "Charlie", score: 100 },
+    { username: "Diana", score: 80 },
+    { username: "Eve", score: 60 },
+    { username: "Frank", score: 40 },
+    { username: "Grace", score: 20 }
+  ];
+
+  tableBody.innerHTML = '';
+  players.forEach((player, index) => {
+    const row = `
+      <tr>
+        <td>#${index + 1}</td>
+        <td>${player.username}</td>
+        <td>${player.score} pts</td>
+      </tr>
+    `;
+    tableBody.innerHTML += row;
+  });
+}
+
+// Run the function when the page loads
+if (document.getElementById('leaderboardTable')) {
+  fetchLeaderboard();
+}
+
 // ================================
 // Inject Footer into every page
 // ================================

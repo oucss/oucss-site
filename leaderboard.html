@@ -3,14 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="OUCSS CTF Leaderboard - Top players in the community.">
+  <meta name="description" content="OUCSS CTF Leaderboard - See how you rank against other members.">
   <meta property="og:title" content="Leaderboard | OUCSS">
   <meta property="og:type" content="website">
   <title>Leaderboard | OUCSS</title>
-  <link rel="icon" type="image/x-icon" href="/favicon.ico">
   <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
 </head>
 <body>
+
 <header class="navbar">
   <div class="nav-container">
     <div class="logo"><a href="/">OUCSS</a></div>
@@ -19,12 +20,11 @@
       <a href="about.html">About</a>
       <a href="lore.html">Lore</a>
       <a href="team.html">Team</a>
-      <a href="projects.html">Projects</a>
+      <a href="projects.html">Member Projects</a>
       <a href="blog.html">Blogs</a>
       <a href="meetups.html">Meetups</a>
       <a href="resources.html">Resources</a>
-      <a href="leaderboard.html">Leaderboard</a>
-      <a href="ctfd.html">CTF</a>
+      <a href="challenge.html">Challenge</a>
       <a href="https://join.oucss.rocks" target="_blank">Join</a>
     </nav>
     <div class="nav-controls">
@@ -36,29 +36,39 @@
   </div>
 </header>
 
-<section class="page-hero">
-  <h1>Leaderboard</h1>
-  <p>The scoreboard never lies.</p>
+<section class="hero">
+  <div class="hero-content">
+    <h1>CTF Leaderboard</h1>
+    <p>See how you rank against other OUCSS members.</p>
+  </div>
+  <div class="hero-grid"></div>
 </section>
 
 <section class="leaderboard-section">
   <div class="leaderboard-container">
-
-    <div class="leaderboard-meta">
-      <span>Live from <a href="https://ctf.oucss.rocks/scoreboard" target="_blank">ctf.oucss.rocks</a></span>
-      <a href="https://ctf.oucss.rocks/scoreboard" target="_blank" class="lb-open-link">Open full scoreboard ↗</a>
+    <div class="terminal-window">
+      <div class="terminal-header">
+        <span class="terminal-title">system_admin@oucss:~/leaderboard</span>
+      </div>
+      <table id="leaderboardTable" class="terminal-table">
+        <thead>
+          <tr>
+            <th>RANK</th>
+            <th>USER</th>
+            <th>SCORE</th>
+          </tr>
+        </thead>
+        <tbody id="leaderboardBody">
+          <tr>
+            <td colspan="3" class="loading">Initializing connection...</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-
-    <p class="leaderboard-text">The scoreboard is visible and updated live. If the platform is down, refresh in a moment or check the Direct CTFd URL below.</p>
-    <div class="leaderboard-actions">
-      <a href="https://ctf.oucss.rocks/scoreboard" target="_blank" class="btn-primary">View Live Scoreboard</a>
-      <a href="https://ctf.oucss.rocks" target="_blank" class="btn-secondary">Open CTF Platform</a>
-    </div>
-
   </div>
 </section>
 
 <script src="/assets/js/theme.js"></script>
 <script src="/assets/js/main.js"></script>
 </body>
-</html> 
+</html>
