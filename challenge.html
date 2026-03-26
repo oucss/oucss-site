@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="OUCSS CTF Challenge - Can you get in?">
+  <meta property="og:title" content="Challenge | OUCSS">
+  <meta property="og:type" content="website">
+  <title>Challenge | OUCSS</title>
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <style>
+    /* ========================
+       CHALLENGE PAGE STYLES
+    ======================== */
+
+    .challenge-section {
+      padding: 4rem 2rem 6rem 2rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .challenge-container {
+      max-width: 700px;
+      width: 100%;
+    }
+
+    /* Breadcrumb */
+    .challenge-breadcrumb {
+      font-family: monospace;
+      font-size: 0.75rem;
+      opacity: 0.4;
+      margin-bottom: 2rem;
+      letter-spacing: 1px;
+    }
+
+    .challenge-breadcrumb a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .challenge-breadcrumb a:hover { opacity: 0.8; }
+
+    /* Meta badges */
+    .challenge-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .challenge-badge {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 0.25rem 0.75rem;
+      font-family: monospace;
+    }
+
+    .badge-web    { color: #6bc5ff; border: 1px solid #6bc5ff44; background: rgba(107,197,255,0.06); }
+    .badge-easy   { color: #a8ff78; border: 1px solid #a8ff7844; background: rgba(168,255,120,0.06); }
+    .badge-points { color: var(--primary); border: 1px solid rgba(0,255,204,0.3); background: rgba(0,255,204,0.05); }
+
+    /* Challenge description card */
+    .challenge-description {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.07);
+      padding: 1.75rem;
+      margin-bottom: 2rem;
+    }
+
+    .challenge-description h1 {
+      font-size: 1.4rem;
+      margin-bottom: 0.5rem;
+      color: var(--text-dark);
+    }
+
+    .challenge-description p {
+      font-size: 0.9rem;
+      opacity: 0.75;
+      line-height: 1.7;
+      margin-bottom: 0.75rem;
+    }
+
+    .challenge-description p:last-child { margin-bottom: 0; }
+
+    .challenge-author {
+      font-size: 0.78rem;
+      font-family: monospace;
+      color: var(--primary);
+      opacity: 0.6;
+      margin-top: 1rem;
+    }
+
+    /* Hint system */
+    .hints-section {
+      margin-bottom: 2rem;
+    }
+
+    .hints-title {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-family: monospace;
+      color: var(--primary);
+      opacity: 0.6;
+      margin-bottom: 0.75rem;
+    }
+
+    .hint-item {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.06);
+      margin-bottom: 0.5rem;
+      overflow: hidden;
+    }
+
+    .hint-toggle {
+      width: 100%;
+      background: none;
+      border: none;
+      color: var(--text-dark);
+      padding: 0.75rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      font-family: monospace;
+      font-size: 0.85rem;
+      text-align: left;
+      transition: 0.2s ease;
+    }
+
+    .hint-toggle:hover { background: rgba(0,255,204,0.04); color: var(--primary); }
+
+    .hint-toggle .hint-label { opacity: 0.7; }
+    .hint-toggle .hint-cost  { font-size: 0.7rem; color: #ffd93d; opacity: 0.7; }
+    .hint-toggle .hint-arrow { transition: transform 0.2s ease; font-size: 0.7rem; opacity: 0.5; }
+    .hint-item.open .hint-arrow { transform: rotate(90deg); }
+
+    .hint-body {
+      display: none;
+      padding: 0 1rem 0.85rem 1rem;
+      font-size: 0.85rem;
+      opacity: 0.75;
+      line-height: 1.6;
+      border-top: 1px solid rgba(255,255,255,0.04);
+      padding-top: 0.75rem;
+    }
+
+    .hint-item.open .hint-body { display: block; }
+
+    /* Target portal link */
+    .portal-link-section {
+      margin-bottom: 2rem;
+      padding: 1.25rem 1.5rem;
+      background: rgba(0,255,204,0.03);
+      border: 1px solid rgba(0,255,204,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .portal-link-label {
+      font-family: monospace;
+      font-size: 0.8rem;
+      opacity: 0.6;
+    }
+
+    .portal-link-label span {
+      display: block;
+      font-size: 0.95rem;
+      opacity: 1;
+      color: var(--primary);
+      margin-top: 0.2rem;
+      word-break: break-all;
+    }
+
+    .portal-open-btn {
+      font-family: monospace;
+      font-size: 0.82rem;
+      padding: 0.5rem 1.2rem;
+      background: transparent;
+      border: 1px solid var(--primary);
+      color: var(--primary);
+      cursor: pointer;
+      text-decoration: none;
+      transition: 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .portal-open-btn:hover {
+      background: var(--primary);
+      color: #000;
+    }
+
+    /* Flag submission */
+    .flag-submit-terminal {
+      border: 1px solid rgba(0,255,204,0.3);
+      background: rgba(0,0,0,0.4);
+      overflow: hidden;
+    }
+
+    .terminal-bar {
+      background: rgba(255,255,255,0.05);
+      padding: 0.6rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .terminal-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .terminal-dot.red    { background: #ff5f57; }
+    .terminal-dot.yellow { background: #febc2e; }
+    .terminal-dot.green  { background: #28c840; }
+
+    .terminal-title {
+      font-size: 0.75rem;
+      opacity: 0.5;
+      margin-left: 0.5rem;
+      font-family: monospace;
+    }
+
+    .terminal-body {
+      padding: 1.5rem;
+    }
+
+    .terminal-body p {
+      font-family: monospace;
+      font-size: 0.85rem;
+      opacity: 0.7;
+      margin: 0 0 1rem 0;
+    }
+
+    .flag-input-row {
+      display: flex;
+      gap: 0.5rem;
+      align-items: stretch;
+    }
+
+    .flag-input {
+      flex: 1;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--text-dark);
+      padding: 0.65rem 1rem;
+      font-family: monospace;
+      font-size: 0.9rem;
+      outline: none;
+      transition: 0.2s ease;
+    }
+
+    .flag-input:focus {
+      border-color: var(--primary);
+      background: rgba(0,255,204,0.03);
+    }
+
+    .flag-submit-btn {
+      background: var(--primary);
+      color: #000;
+      border: none;
+      padding: 0.65rem 1.5rem;
+      font-family: monospace;
+      font-size: 0.9rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .flag-submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 12px var(--primary);
+    }
+
+    .flag-submit-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* Feedback messages */
+    .flag-feedback {
+      margin-top: 1rem;
+      padding: 0.75rem 1rem;
+      font-family: monospace;
+      font-size: 0.85rem;
+      display: none;
+    }
+
+    .flag-feedback.show { display: block; }
+    .flag-feedback.correct { border-left: 3px solid #a8ff78; color: #a8ff78; background: rgba(168,255,120,0.05); }
+    .flag-feedback.wrong   { border-left: 3px solid #ff6b6b; color: #ff6b6b; background: rgba(255,107,107,0.05); }
+    .flag-feedback.error   { border-left: 3px solid #ffd93d; color: #ffd93d; background: rgba(255,217,61,0.05); }
+
+    /* Light mode overrides */
+    body.light-mode .challenge-description { background: #fff; border-color: #c8c8c8; color: #1a1a1a; }
+    body.light-mode .hint-item { background: #fff; border-color: #c8c8c8; }
+    body.light-mode .hint-toggle { color: #1a1a1a; }
+    body.light-mode .portal-link-section { background: rgba(0,122,96,0.04); border-color: rgba(0,122,96,0.2); }
+    body.light-mode .flag-submit-terminal { background: #16213e; border-color: rgba(0,255,204,0.4); --primary: #00ffcc; --text-dark: #e6edf3; }
+    body.light-mode .flag-input { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.15); color: #e6edf3; }
+  </style>
+</head>
+<body>
+
+<header class="navbar">
+  <div class="nav-container">
+    <div class="logo"><a href="/">OUCSS</a></div>
+    <nav class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="lore.html">Lore</a>
+      <a href="team.html">Team</a>
+      <a href="projects.html">Member Projects</a>
+      <a href="blog.html">Blogs</a>
+      <a href="meetups.html">Meetups</a>
+      <a href="resources.html">Resources</a>
+      <a href="ctfd.html" class="nav-active">CTF</a>
+      <a href="https://join.oucss.rocks" target="_blank">Join</a>
+    </nav>
+    <div class="nav-controls">
+      <button id="themeToggle">🌙</button>
+      <div class="hamburger" id="hamburger">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Page Hero -->
+<div class="page-hero">
+  <div class="challenge-breadcrumb">
+    <a href="ctfd.html">CTF</a> &nbsp;/&nbsp; Web Exploitation &nbsp;/&nbsp; Forgotten Gateway
+  </div>
+</div>
+
+<!-- Main Challenge -->
+<section class="challenge-section">
+  <div class="challenge-container">
+
+    <!-- Meta -->
+    <div class="challenge-meta">
+      <span class="challenge-badge badge-web">Web</span>
+      <span class="challenge-badge badge-easy">Beginner</span>
+      <span class="challenge-badge badge-points">100 pts</span>
+    </div>
+
+    <!-- Description -->
+    <div class="challenge-description">
+      <h1>Forgotten Gateway</h1>
+      <p>
+        The old OUCSS admin portal was supposed to be decommissioned months ago. Rumour has it
+        the developer left in a hurry and didn't finish cleaning up the code.
+      </p>
+      <p>
+        Can you find a way past the login screen? The flag is waiting for whoever gets through.
+      </p>
+      <div class="challenge-author">// author: OUCSS</div>
+    </div>
+
+    <!-- Hints -->
+    <div class="hints-section">
+      <div class="hints-title">Hints</div>
+
+      <div class="hint-item" id="hint1">
+        <button class="hint-toggle" onclick="toggleHint('hint1')">
+          <span class="hint-label">Hint 1 — Look closer at the request</span>
+          <span style="display:flex;align-items:center;gap:0.75rem;">
+            <span class="hint-cost">free</span>
+            <span class="hint-arrow">▶</span>
+          </span>
+        </button>
+        <div class="hint-body">
+          HTTP requests can carry more than just a username and password. Think about what
+          other parameters might be sent alongside a login form — and whether the server
+          validates them properly.
+        </div>
+      </div>
+
+      <div class="hint-item" id="hint2">
+        <button class="hint-toggle" onclick="toggleHint('hint2')">
+          <span class="hint-label">Hint 2 — Developer shortcuts</span>
+          <span style="display:flex;align-items:center;gap:0.75rem;">
+            <span class="hint-cost">free</span>
+            <span class="hint-arrow">▶</span>
+          </span>
+        </button>
+        <div class="hint-body">
+          Developers sometimes add backdoors during testing and forget to remove them.
+          What if the server checks for a specific parameter that grants admin access
+          directly — without needing a valid password?
+        </div>
+      </div>
+
+      <div class="hint-item" id="hint3">
+        <button class="hint-toggle" onclick="toggleHint('hint3')">
+          <span class="hint-label">Hint 3 — Tools</span>
+          <span style="display:flex;align-items:center;gap:0.75rem;">
+            <span class="hint-cost">free</span>
+            <span class="hint-arrow">▶</span>
+          </span>
+        </button>
+        <div class="hint-body">
+          Use your browser's DevTools (F12 → Network tab) or a tool like <code>curl</code>
+          to inspect and modify the request. Try adding a query parameter like
+          <code>?debug=true</code> or <code>?role=admin</code> to the login endpoint.
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Portal Link -->
+    <div class="portal-link-section">
+      <div class="portal-link-label">
+        Target
+        <!-- Replace 35.232.179.119 with your actual GCP external IP and port -->
+        <span id="portalUrl">http://35.232.179.119:9004</span>
+      </div>
+      <a id="portalOpenBtn" href="http://35.232.179.119:9004" target="_blank" class="portal-open-btn">
+        Open Portal ↗
+      </a>
+    </div>
+
+    <!-- Flag Submission -->
+    <div class="flag-submit-terminal">
+      <div class="terminal-bar">
+        <span class="terminal-dot red"></span>
+        <span class="terminal-dot yellow"></span>
+        <span class="terminal-dot green"></span>
+        <span class="terminal-title">flag-submission.sh</span>
+      </div>
+      <div class="terminal-body">
+        <p><span style="color:var(--primary)">$</span> Found the flag? Submit it below.</p>
+        <div class="flag-input-row">
+          <input
+            type="text"
+            class="flag-input"
+            id="flagInput"
+            placeholder="OUCSS{...}"
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <button class="flag-submit-btn" id="flagSubmitBtn" onclick="submitFlag()">
+            Submit
+          </button>
+        </div>
+        <div class="flag-feedback" id="flagFeedback"></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">OUCSS</div>
+        <p>Open University Cyber Security Society. Beginner to Elite.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Compete</h4>
+        <a href="ctfd.html">CTF Platform</a>
+        <a href="leaderboard.html">Leaderboard</a>
+      </div>
+      <div class="footer-col">
+        <h4>Learn</h4>
+        <a href="resources.html">Resources</a>
+        <a href="blog.html">Blogs</a>
+        <a href="meetups.html">Meetups</a>
+      </div>
+      <div class="footer-col">
+        <h4>Community</h4>
+        <a href="about.html">About</a>
+        <a href="team.html">Team</a>
+        <a href="https://join.oucss.rocks" target="_blank">Join</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 OUCSS — Open University Cyber Security Society</p>
+      <div class="footer-socials">
+        <a href="https://discord.gg/oucss" target="_blank">Discord</a>
+        <a href="https://github.com/oucss" target="_blank">GitHub</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/js/theme.js"></script>
+<script src="/assets/js/main.js"></script>
+<script>
+  // Replace with your actual GCP backend URL before deploying
+  // e.g. const BACKEND = "http://34.1.2.3:9004";
+  const BACKEND = "http://35.232.179.119:9004";
+
+  function toggleHint(id) {
+    const item = document.getElementById(id);
+    item.classList.toggle('open');
+  }
+
+  async function submitFlag() {
+    const input = document.getElementById('flagInput');
+    const btn   = document.getElementById('flagSubmitBtn');
+    const fb    = document.getElementById('flagFeedback');
+    const flag  = input.value.trim();
+
+    if (!flag) return;
+
+    btn.disabled = true;
+    btn.textContent = 'Checking...';
+    fb.className = 'flag-feedback';
+    fb.style.display = 'none';
+
+    try {
+      const res  = await fetch(`${BACKEND}/verify`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ flag })
+      });
+      const data = await res.json();
+
+      if (data.correct) {
+        fb.className = 'flag-feedback correct show';
+        fb.textContent = '✓ Correct! Well done — flag accepted.';
+        input.value = '';
+      } else {
+        fb.className = 'flag-feedback wrong show';
+        fb.textContent = '✗ Wrong flag. Keep digging.';
+      }
+    } catch (e) {
+      fb.className = 'flag-feedback error show';
+      fb.textContent = '⚠ Could not reach the challenge server. Is it running?';
+    }
+
+    btn.disabled = false;
+    btn.textContent = 'Submit';
+  }
+
+  // Allow Enter key to submit
+  document.getElementById('flagInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') submitFlag();
+  });
+</script>
+</body>
+</html>
