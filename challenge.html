@@ -519,6 +519,7 @@
   // ========================================
   const BACKEND = "http://35.232.179.119:9004";
   const CHALLENGE_ID = "forgotten-gateway";  // ← CHANGE THIS FOR EACH NEW CHALLENGE
+  const LOCAL_ACCEPTABLE_FLAG = 'OUCSS{h1dd3n_p4r4ms_4r3_n0t_s3cur1ty}';
   let flagForLeaderboard = null;
 
   // ========================================
@@ -540,6 +541,12 @@
 
     if (!flag) return;
 
+    if (flag !== LOCAL_ACCEPTABLE_FLAG) {
+      fb.className = 'flag-feedback wrong show';
+      fb.textContent = '✗ Incorrect flag. Keep digging.';
+      return;
+    }
+
     btn.disabled = true;
     btn.textContent = 'Checking...';
     fb.className = 'flag-feedback';
@@ -553,7 +560,8 @@
       });
       const data = await res.json();
 
-      if (data.correct) {
+      const LOCAL_ACCEPTABLE_FLAG = 'OUCSS{h1dd3n_p4r4ms_4r3_n0t_s3cur1ty}';
+      if (data.correct && flag === LOCAL_ACCEPTABLE_FLAG) {
         flagForLeaderboard = flag;
         fb.className = 'flag-feedback correct show';
         fb.textContent = '✓ Correct! Well done — add your name to the leaderboard.';
@@ -566,16 +574,17 @@
       }
     } catch (e) {
       // Offline/remote service unavailable fallback (local challenge mode)
-      if (flag) {
+      const LOCAL_ACCEPTABLE_FLAG = 'OUCSS{h1dd3n_p4r4ms_4r3_n0t_s3cur1ty}'; // offline testing flag
+      if (flag && flag === LOCAL_ACCEPTABLE_FLAG) {
         flagForLeaderboard = flag;
         fb.className = 'flag-feedback correct show';
-        fb.textContent = '✓ Connection failed, but flag value is non-empty; add username to the leaderboard (offline mode).';
+        fb.textContent = '✓ Local flag accepted (offline mode). Add your username to the leaderboard.';
         input.value = '';
         document.getElementById('usernameRow').style.display = 'flex';
         document.getElementById('usernameInput').focus();
       } else {
-        fb.className = 'flag-feedback error show';
-        fb.textContent = '⚠ Could not reach the challenge server. Is it running?';
+        fb.className = 'flag-feedback wrong show';
+        fb.textContent = '✗ Incorrect flag. Try again when server is back online.';
       }
       console.error('Error:', e);
     }
