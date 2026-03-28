@@ -420,20 +420,50 @@
 
     </div>
 
-    <!-- Portal Link -->
-    <div class="portal-link-section">
+    <!-- Portal Link (Forgotten Gateway) -->
+    <div class="portal-link-section" id="gatewayPortal">
       <div class="portal-link-label">
-        Target
-        <!-- Replace 35.232.179.119 with your actual GCP external IP and port -->
+        Target (Forgotten Gateway)
         <span id="portalUrl">http://35.232.179.119:9004</span>
       </div>
-      <a id="portalOpenBtn" href="http://35.232.179.119:9004" target="_blank" class="portal-open-btn">
-        Open Portal ↗
-      </a>
+      <div style="display:flex; gap:0.5rem; flex-wrap:wrap; align-items:center;">
+        <a id="portalOpenBtn" href="http://35.232.179.119:9004" target="_blank" class="portal-open-btn" style="margin-right:0.5rem;">
+          Open Portal ↗
+        </a>
+        <button class="portal-open-btn" id="portalIframeBtn" onclick="togglePortalIframe('forgotten-gateway')" type="button">
+          Toggle iframe
+        </button>
+      </div>
     </div>
 
-    <!-- Flag Submission -->
-    <div class="flag-submit-terminal">
+    <!-- Embedded iframe -->
+    <div id="portalIframeWrapper" style="display:none; margin-bottom:2rem;">
+      <iframe id="portalIframe" src="" style="width:100%; min-height:760px; border:1px solid rgba(0,255,204,0.35); border-radius:8px;"></iframe>
+    </div>
+
+    <!-- OUCSS Bank Challenge -->
+    <div class="challenge-description" style="margin-top:2rem;">
+      <h1>OUCSS Bank</h1>
+      <p>Admin vault access is gated by JWT role checks. Get or forge an admin token and post /api/vault.</p>
+      <p>Hint: secret is weak and the flag is in the server response.</p>
+      <div class="challenge-author">// author: m0j0r1s1n</div>
+    </div>
+
+    <div class="portal-link-section" id="bankPortal" style="margin-bottom:1rem;">
+      <div class="portal-link-label">
+        Target (OUCSS Bank)
+        <span id="portalUrlBank">http://35.232.179.119:9003</span>
+      </div>
+      <div style="display:flex; gap:0.5rem; flex-wrap:wrap; align-items:center;">
+        <a id="portalOpenBtnBank" href="http://35.232.179.119:9003" target="_blank" class="portal-open-btn" style="margin-right:0.5rem;">
+          Open Portal ↗
+        </a>        <button class="portal-open-btn" id="portalIframeBtnBank" onclick="togglePortalIframe('oucss-bank')" type="button">
+          Toggle iframe
+        </button>      </div>
+    </div>
+
+    <!-- Flag Submission (Forgotten Gateway) -->
+    <div class="flag-submit-terminal" id="gatewayFlagTerminal">
       <div class="terminal-bar">
         <span class="terminal-dot red"></span>
         <span class="terminal-dot yellow"></span>
@@ -441,34 +471,74 @@
         <span class="terminal-title">flag-submission.sh</span>
       </div>
       <div class="terminal-body">
-        <p><span style="color:var(--primary)">$</span> Found the flag? Submit it below.</p>
+        <p><span style="color:var(--primary)">$</span> Forgotten Gateway flag? Submit it below.</p>
         <div class="flag-input-row">
           <input
             type="text"
             class="flag-input"
-            id="flagInput"
+            id="flagInputGateway"
             placeholder="OUCSS{...}"
             autocomplete="off"
             spellcheck="false"
           />
-          <button class="flag-submit-btn" id="flagSubmitBtn" onclick="submitFlag()">
+          <button class="flag-submit-btn" id="flagSubmitBtnGateway" onclick="submitFlag('forgotten-gateway')">
             Submit
           </button>
         </div>
-        <div class="username-input-row" id="usernameRow" style="display: none;">
+        <div class="username-input-row" id="usernameRowGateway" style="display: none;">
           <input
             type="text"
             class="flag-input"
-            id="usernameInput"
+            id="usernameInputGateway"
             placeholder="Enter your username"
             autocomplete="off"
             spellcheck="false"
           />
-          <button class="flag-submit-btn" id="usernameSubmitBtn" onclick="submitUsername()">
+          <button class="flag-submit-btn" id="usernameSubmitBtnGateway" onclick="submitUsername('forgotten-gateway')">
             Add to Leaderboard
           </button>
         </div>
-        <div class="flag-feedback" id="flagFeedback"></div>
+        <div class="flag-feedback" id="flagFeedbackGateway"></div>
+      </div>
+    </div>
+
+    <!-- Flag Submission (OUCSS Bank) -->
+    <div class="flag-submit-terminal" id="bankFlagTerminal" style="margin-top:1.5rem;">
+      <div class="terminal-bar">
+        <span class="terminal-dot red"></span>
+        <span class="terminal-dot yellow"></span>
+        <span class="terminal-dot green"></span>
+        <span class="terminal-title">flag-submission-bank.sh</span>
+      </div>
+      <div class="terminal-body">
+        <p><span style="color:var(--primary)">$</span> OUCSS Bank flag? Submit it below.</p>
+        <div class="flag-input-row">
+          <input
+            type="text"
+            class="flag-input"
+            id="flagInputBank"
+            placeholder="OUCSS{...}"
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <button class="flag-submit-btn" id="flagSubmitBtnBank" onclick="submitFlag('oucss-bank')">
+            Submit
+          </button>
+        </div>
+        <div class="username-input-row" id="usernameRowBank" style="display: none;">
+          <input
+            type="text"
+            class="flag-input"
+            id="usernameInputBank"
+            placeholder="Enter your username"
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <button class="flag-submit-btn" id="usernameSubmitBtnBank" onclick="submitUsername('oucss-bank')">
+            Add to Leaderboard
+          </button>
+        </div>
+        <div class="flag-feedback" id="flagFeedbackBank"></div>
       </div>
     </div>
 
@@ -517,10 +587,43 @@
 // ========================================
   // CHALLENGE CONFIGURATION - CHANGE THIS FOR NEW CHALLENGES
   // ========================================
-  const BACKEND = "http://35.232.179.119:9004";
-  const CHALLENGE_ID = "forgotten-gateway";  // ← CHANGE THIS FOR EACH NEW CHALLENGE
-  const LOCAL_ACCEPTABLE_FLAG = 'OUCSS{h1dd3n_p4r4ms_4r3_n0t_s3cur1ty}';
-  let flagForLeaderboard = null;
+  const CHALLENGES = {
+    "forgotten-gateway": {
+      backend: "http://35.232.179.119:9004",
+      localFlag: "OUCSS{h1dd3n_p4r4ms_4r3_n0t_s3cur1ty}",
+      points: 100
+    },
+    "oucss-bank": {
+      backend: "http://35.232.179.119:9003",
+      localFlag: "OUCSS{w34k_s3cr3ts_4r3_n0_s3cr3t_4t_4ll}",
+      points: 150
+    }
+  };
+
+  let flagForLeaderboard = {
+    "forgotten-gateway": null,
+    "oucss-bank": null
+  };
+
+  // ========================================
+  // PORTAL IFRAME TOGGLE
+  // ========================================
+  function togglePortalIframe(challengeId = 'forgotten-gateway') {
+    const wrapper = document.getElementById('portalIframeWrapper');
+    const iframe = document.getElementById('portalIframe');
+    const portalUrl = (challengeId === 'oucss-bank')
+      ? document.getElementById('portalUrlBank').textContent.trim()
+      : document.getElementById('portalUrl').textContent.trim();
+
+    if (wrapper.style.display === 'none' || wrapper.style.display === '') {
+      iframe.src = portalUrl;
+      wrapper.style.display = 'block';
+      document.getElementById('portalIframeBtn').textContent = 'Hide iframe';
+    } else {
+      wrapper.style.display = 'none';
+      document.getElementById('portalIframeBtn').textContent = 'Show iframe';
+    }
+  }
 
   // ========================================
   // HINT TOGGLE
@@ -533,15 +636,18 @@
   // ========================================
   // SUBMIT FLAG
   // ========================================
-  async function submitFlag() {
-    const input = document.getElementById('flagInput');
-    const btn   = document.getElementById('flagSubmitBtn');
-    const fb    = document.getElementById('flagFeedback');
-    const flag  = input.value.trim();
+  async function submitFlag(challengeId) {
+    const challenge = CHALLENGES[challengeId];
+    const input = document.getElementById(challengeId === 'oucss-bank' ? 'flagInputBank' : 'flagInputGateway');
+    const btn = document.getElementById(challengeId === 'oucss-bank' ? 'flagSubmitBtnBank' : 'flagSubmitBtnGateway');
+    const fb = document.getElementById(challengeId === 'oucss-bank' ? 'flagFeedbackBank' : 'flagFeedbackGateway');
+    const usernameRow = document.getElementById(challengeId === 'oucss-bank' ? 'usernameRowBank' : 'usernameRowGateway');
+    const usernameInput = document.getElementById(challengeId === 'oucss-bank' ? 'usernameInputBank' : 'usernameInputGateway');
 
+    const flag = input.value.trim();
     if (!flag) return;
 
-    if (flag !== LOCAL_ACCEPTABLE_FLAG) {
+    if (flag !== challenge.localFlag) {
       fb.className = 'flag-feedback wrong show';
       fb.textContent = '✗ Incorrect flag. Keep digging.';
       return;
@@ -553,35 +659,32 @@
     fb.style.display = 'none';
 
     try {
-      const res  = await fetch(`${BACKEND}/verify`, {
+      const res = await fetch(`${challenge.backend}/verify`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ flag })
       });
       const data = await res.json();
 
-      const LOCAL_ACCEPTABLE_FLAG = 'OUCSS{h1dd3n_p4r4ms_4r3_n0t_s3cur1ty}';
-      if (data.correct && flag === LOCAL_ACCEPTABLE_FLAG) {
-        flagForLeaderboard = flag;
+      if (data.correct && flag === challenge.localFlag) {
+        flagForLeaderboard[challengeId] = flag;
         fb.className = 'flag-feedback correct show';
         fb.textContent = '✓ Correct! Well done — add your name to the leaderboard.';
         input.value = '';
-        document.getElementById('usernameRow').style.display = 'flex';
-        document.getElementById('usernameInput').focus();
+        usernameRow.style.display = 'flex';
+        usernameInput.focus();
       } else {
         fb.className = 'flag-feedback wrong show';
         fb.textContent = '✗ Wrong flag. Keep digging.';
       }
     } catch (e) {
-      // Offline/remote service unavailable fallback (local challenge mode)
-      const LOCAL_ACCEPTABLE_FLAG = 'OUCSS{h1dd3n_p4r4ms_4r3_n0t_s3cur1ty}'; // offline testing flag
-      if (flag && flag === LOCAL_ACCEPTABLE_FLAG) {
-        flagForLeaderboard = flag;
+      if (flag === challenge.localFlag) {
+        flagForLeaderboard[challengeId] = flag;
         fb.className = 'flag-feedback correct show';
         fb.textContent = '✓ Local flag accepted (offline mode). Add your username to the leaderboard.';
         input.value = '';
-        document.getElementById('usernameRow').style.display = 'flex';
-        document.getElementById('usernameInput').focus();
+        usernameRow.style.display = 'flex';
+        usernameInput.focus();
       } else {
         fb.className = 'flag-feedback wrong show';
         fb.textContent = '✗ Incorrect flag. Try again when server is back online.';
@@ -596,25 +699,27 @@
   // ========================================
   // ADD TO LEADERBOARD
   // ========================================
-  async function submitUsername() {
-    const input = document.getElementById('usernameInput');
-    const btn   = document.getElementById('usernameSubmitBtn');
-    const fb    = document.getElementById('flagFeedback');
-    const username = input.value.trim();
+  async function submitUsername(challengeId) {
+    const challenge = CHALLENGES[challengeId];
+    const input = document.getElementById(challengeId === 'oucss-bank' ? 'usernameInputBank' : 'usernameInputGateway');
+    const btn = document.getElementById(challengeId === 'oucss-bank' ? 'usernameSubmitBtnBank' : 'usernameSubmitBtnGateway');
+    const fb = document.getElementById(challengeId === 'oucss-bank' ? 'flagFeedbackBank' : 'flagFeedbackGateway');
+    const usernameRow = document.getElementById(challengeId === 'oucss-bank' ? 'usernameRowBank' : 'usernameRowGateway');
 
-    if (!username || !flagForLeaderboard) return;
+    const username = input.value.trim();
+    if (!username || !flagForLeaderboard[challengeId]) return;
 
     btn.disabled = true;
     btn.textContent = 'Adding...';
 
     try {
-      const res = await fetch(`${BACKEND}/submit-solve`, {
+      const res = await fetch(`${challenge.backend}/submit-solve`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           username,
-          flag: flagForLeaderboard,
-          challenge_id: CHALLENGE_ID
+          flag: flagForLeaderboard[challengeId],
+          challenge_id: challengeId
         })
       });
       const data = await res.json();
@@ -622,16 +727,63 @@
       if (data.success) {
         fb.className = 'flag-feedback correct show';
         fb.textContent = '✓ Added to leaderboard (remote).';
-        addLocalLeaderboardEntry(username, 100, CHALLENGE_ID);
+        addLocalLeaderboardEntry(username, challenge.points, challengeId);
         input.value = '';
-        document.getElementById('usernameRow').style.display = 'none';
-        flagForLeaderboard = null;
+        usernameRow.style.display = 'none';
+        flagForLeaderboard[challengeId] = null;
       } else {
-        // backend failed; fall back to local storage
-        const saved = addLocalLeaderboardEntry(username, 100, CHALLENGE_ID);
+        const saved = addLocalLeaderboardEntry(username, challenge.points, challengeId);
         if (saved) {
           fb.className = 'flag-feedback correct show';
           fb.textContent = '✓ Added locally to leaderboard (offline mode).';
+          input.value = '';
+          usernameRow.style.display = 'none';
+          flagForLeaderboard[challengeId] = null;
+        } else {
+          fb.className = 'flag-feedback error show';
+          fb.textContent = '⚠ Could not add to leaderboard: ' + (data.error || 'Unknown error');
+        }
+      }
+    } catch (e) {
+      const saved = addLocalLeaderboardEntry(username, challenge.points, challengeId);
+      if (saved) {
+        fb.className = 'flag-feedback correct show';
+        fb.textContent = '✓ Added locally to leaderboard (offline mode).';
+        input.value = '';
+        usernameRow.style.display = 'none';
+        flagForLeaderboard[challengeId] = null;
+      } else {
+        fb.className = 'flag-feedback error show';
+        fb.textContent = '⚠ Could not reach the challenge server.';
+      }
+      console.error('Error:', e);
+    }
+
+    btn.disabled = false;
+    btn.textContent = 'Add to Leaderboard';
+  }
+
+  // ========================================
+  // KEYBOARD SHORTCUTS
+  // ========================================
+  document.getElementById('flagInputGateway').addEventListener('keydown', e => {
+    if (e.key === 'Enter') submitFlag('forgotten-gateway');
+  });
+
+  document.getElementById('usernameInputGateway').addEventListener('keydown', e => {
+    if (e.key === 'Enter') submitUsername('forgotten-gateway');
+  });
+
+  document.getElementById('flagInputBank').addEventListener('keydown', e => {
+    if (e.key === 'Enter') submitFlag('oucss-bank');
+  });
+
+  document.getElementById('usernameInputBank').addEventListener('keydown', e => {
+    if (e.key === 'Enter') submitUsername('oucss-bank');
+  });
+</script>
+</body>
+</html>
           input.value = '';
           document.getElementById('usernameRow').style.display = 'none';
           flagForLeaderboard = null;
