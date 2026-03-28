@@ -7,11 +7,43 @@
 
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #0f172a;
-      color: white;
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #daf3ff;
       text-align: center;
       padding: 20px;
+      background: #0f172a;
+      overflow: hidden;
+    }
+
+    #matrixCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      pointer-events: none;
+      opacity: 0.6;
+      background: radial-gradient(circle at top, #0f172a 0%, #02040a 60%, #010208 100%);
+    }
+
+    .leaderboard-wrapper {
+      position: relative;
+      z-index: 1;
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 16px;
+      border: 1px solid rgba(0,255,204,0.2);
+      border-radius: 14px;
+      background: rgba(1, 19, 30, 0.7);
+      backdrop-filter: blur(6px);
+    }
+
+    .leaderboard-title {
+      margin-top: 0;
+      color: #8fefb2;
+      text-shadow: 0 0 16px rgba(0,255,204,0.7);
     }
 
     h1 {
@@ -58,24 +90,72 @@
   </style>
 </head>
 <body>
+<canvas id="matrixCanvas"></canvas>
 
-<h1>🏆 OUCSS CTF Leaderboard</h1>
+<div class="leaderboard-wrapper">
+  <h1 class="leaderboard-title">🏆 OUCSS CTF Leaderboard</h1>
+  <button onclick="goBack()" class="back-btn">⬅ Back</button>
 
-<button onclick="goBack()" class="back-btn">⬅ Back</button>
-
-<table id="leaderboard">
+  <table id="leaderboard">
   <thead>
     <tr>
       <th>#</th>
-      <th>Team</th>
+      <th>Name</th>
       <th>Score</th>
     </tr>
   </thead>
-  <tbody></tbody>
+  <tbody id="leaderboardBody"></tbody>
 </table>
+</div>
 
+<script src="/assets/js/theme.js"></script>
+<script src="/assets/js/main.js"></script>
 <script>
 const API_URL = "https://ctf.oucss.rocks/api/v1/scoreboard";
+
+// Matrix background effect
+(function() {
+  const canvas = document.getElementById('matrixCanvas');
+  if (!canvas) return;
+
+  const ctx = canvas.getContext('2d');
+  let width = window.innerWidth;
+  let height = window.innerHeight;
+  canvas.width = width;
+  canvas.height = height;
+
+  const cols = Math.floor(width / 16) + 1;
+  const drops = Array(cols).fill(0);
+
+  function draw() {
+    ctx.fillStyle = 'rgba(0, 5, 10, 0.15)';
+    ctx.fillRect(0, 0, width, height);
+
+    ctx.fillStyle = '#0ff';
+    ctx.font = '15px monospace';
+
+    const techChars = '01<>+-*/=%#&@^$!?~[]{}()|';
+    for (let i = 0; i < drops.length; i++) {
+      const text = techChars.charAt(Math.floor(Math.random() * techChars.length));
+      ctx.fillText(text, i * 16, drops[i] * 18);
+
+      if (drops[i] * 18 > height || Math.random() > 0.975) {
+        drops[i] = 0;
+      }
+      drops[i]++;
+    }
+  }
+
+  function resize() {
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = width;
+    canvas.height = height;
+  }
+
+  window.addEventListener('resize', resize);
+  setInterval(draw, 60);
+})();
 
 let lastScores = {};
 let firstLoad = true;
@@ -90,39 +170,50 @@ function goBack() {
 }
 
 async function loadLeaderboard() {
+  const tbody = document.querySelector("#leaderboardBody");
+  if (!tbody) return;
+
   try {
     const response = await fetch(API_URL);
+    if (!response.ok) throw new Error(`API returned ${response.status}`);
     const result = await response.json();
 
-    const tbody = document.querySelector("#leaderboard tbody");
     tbody.innerHTML = "";
 
-    result.data.forEach((team, index) => {
-      const row = document.createElement("tr");
+    if (Array.isArray(result.data) && result.data.length > 0) {
+      result.data.forEach((team, index) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${team.name}</td>
+          <td>${team.score}</td>
+        `;
+        tbody.appendChild(row);
+      });
 
-      row.innerHTML = `
-        <td>${index + 1}</td>
-        <td>${team.name}</td>
-        <td>${team.score}</td>
-      `;
-
-      tbody.appendChild(row);
-
-      // 🚨 detect solves (skip first load)
-      const oldScore = lastScores[team.id];
-
-      if (!firstLoad && oldScore !== undefined && team.score > oldScore) {
-        const diff = team.score - oldScore;
-        showSolveAlert(team.name, diff);
+      // After remote data, merge local entries too
+      const localEntries = getLocalLeaderboard();
+      if (localEntries.length > 0) {
+        const localSorted = localEntries.slice().sort((a, b) => b.score - a.score);
+        localSorted.forEach((entry) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>–</td>
+            <td>${entry.username} (local)</td>
+            <td>${entry.score}</td>
+          `;
+          tbody.appendChild(row);
+        });
       }
 
-      lastScores[team.id] = team.score;
-    });
+      return;
+    }
 
-    firstLoad = false;
-
+    // fallback to local if API returns no data
+    renderLeaderboard();
   } catch (error) {
-    console.error("Error:", error);
+    console.error("Error loading scoreboard, falling back to local:", error);
+    renderLeaderboard();
   }
 }
 

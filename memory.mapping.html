@@ -336,7 +336,7 @@
 <!-- Page Hero -->
 <div class="page-hero">
   <div class="challenge-breadcrumb">
-    <a href="challenge.html">Challenge</a> &nbsp;/&nbsp; Web Exploitation &nbsp;/&nbsp; Forgotten Gateway
+    <a href="challenge.html">Challenge</a> &nbsp;/&nbsp; Binary Exploitation &nbsp;/&nbsp; Memory Mapping
   </div>
 </div>
 
@@ -353,10 +353,15 @@
 
     <!-- Description -->
     <div class="challenge-description">
-      <h1>Forgotten Gateway</h1>
+      <h1>Memory Mapping</h1>
       <p>
-        The old OUCSS admin portal was supposed to be decommissioned months ago. Rumour has it
-        the developer left in a hurry and didn't finish cleaning up the code.
+You've discovered a legacy banking application running on one of OUCSS's servers. 
+The developers thought security through obscurity would protect their code, but they 
+left something critical exposed: the memory layout.
+
+The application uses a predictable memory allocation scheme, and its function pointers 
+are stored in a predictable location. Can you exploit the memory layout to hijack 
+program execution and claim the flag?
       </p>
       <p>
         Can you find a way past the login screen? The flag is waiting for whoever gets through.
@@ -514,24 +519,15 @@
 <script src="/assets/js/theme.js"></script>
 <script src="/assets/js/main.js"></script>
 <script>
-// ========================================
-  // CHALLENGE CONFIGURATION - CHANGE THIS FOR NEW CHALLENGES
-  // ========================================
+  // Replace with your actual GCP backend URL before deploying
+  // e.g. const BACKEND = "http://34.1.2.3:9004";
   const BACKEND = "http://35.232.179.119:9004";
-  const CHALLENGE_ID = "forgotten-gateway";  // ← CHANGE THIS FOR EACH NEW CHALLENGE
-  let flagForLeaderboard = null;
 
-  // ========================================
-  // HINT TOGGLE
-  // ========================================
   function toggleHint(id) {
     const item = document.getElementById(id);
     item.classList.toggle('open');
   }
 
-  // ========================================
-  // SUBMIT FLAG
-  // ========================================
   async function submitFlag() {
     const input = document.getElementById('flagInput');
     const btn   = document.getElementById('flagSubmitBtn');
@@ -554,111 +550,25 @@
       const data = await res.json();
 
       if (data.correct) {
-        flagForLeaderboard = flag;
         fb.className = 'flag-feedback correct show';
-        fb.textContent = '✓ Correct! Well done — add your name to the leaderboard.';
+        fb.textContent = '✓ Correct! Well done — flag accepted.';
         input.value = '';
-        document.getElementById('usernameRow').style.display = 'flex';
-        document.getElementById('usernameInput').focus();
       } else {
         fb.className = 'flag-feedback wrong show';
         fb.textContent = '✗ Wrong flag. Keep digging.';
       }
     } catch (e) {
-      // Offline/remote service unavailable fallback (local challenge mode)
-      if (flag) {
-        flagForLeaderboard = flag;
-        fb.className = 'flag-feedback correct show';
-        fb.textContent = '✓ Connection failed, but flag value is non-empty; add username to the leaderboard (offline mode).';
-        input.value = '';
-        document.getElementById('usernameRow').style.display = 'flex';
-        document.getElementById('usernameInput').focus();
-      } else {
-        fb.className = 'flag-feedback error show';
-        fb.textContent = '⚠ Could not reach the challenge server. Is it running?';
-      }
-      console.error('Error:', e);
+      fb.className = 'flag-feedback error show';
+      fb.textContent = '⚠ Could not reach the challenge server. Is it running?';
     }
 
     btn.disabled = false;
     btn.textContent = 'Submit';
   }
 
-  // ========================================
-  // ADD TO LEADERBOARD
-  // ========================================
-  async function submitUsername() {
-    const input = document.getElementById('usernameInput');
-    const btn   = document.getElementById('usernameSubmitBtn');
-    const fb    = document.getElementById('flagFeedback');
-    const username = input.value.trim();
-
-    if (!username || !flagForLeaderboard) return;
-
-    btn.disabled = true;
-    btn.textContent = 'Adding...';
-
-    try {
-      const res = await fetch(`${BACKEND}/submit-solve`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          username,
-          flag: flagForLeaderboard,
-          challenge_id: CHALLENGE_ID
-        })
-      });
-      const data = await res.json();
-
-      if (data.success) {
-        fb.className = 'flag-feedback correct show';
-        fb.textContent = '✓ Added to leaderboard (remote).';
-        addLocalLeaderboardEntry(username, 100, CHALLENGE_ID);
-        input.value = '';
-        document.getElementById('usernameRow').style.display = 'none';
-        flagForLeaderboard = null;
-      } else {
-        // backend failed; fall back to local storage
-        const saved = addLocalLeaderboardEntry(username, 100, CHALLENGE_ID);
-        if (saved) {
-          fb.className = 'flag-feedback correct show';
-          fb.textContent = '✓ Added locally to leaderboard (offline mode).';
-          input.value = '';
-          document.getElementById('usernameRow').style.display = 'none';
-          flagForLeaderboard = null;
-        } else {
-          fb.className = 'flag-feedback error show';
-          fb.textContent = '⚠ Could not add to leaderboard: ' + (data.error || 'Unknown error');
-        }
-      }
-    } catch (e) {
-      const saved = addLocalLeaderboardEntry(username, 100, CHALLENGE_ID);
-      if (saved) {
-        fb.className = 'flag-feedback correct show';
-        fb.textContent = '✓ Added locally to leaderboard (offline mode).';
-        input.value = '';
-        document.getElementById('usernameRow').style.display = 'none';
-        flagForLeaderboard = null;
-      } else {
-        fb.className = 'flag-feedback error show';
-        fb.textContent = '⚠ Could not reach the challenge server.';
-      }
-      console.error('Error:', e);
-    }
-
-    btn.disabled = false;
-    btn.textContent = 'Add to Leaderboard';
-  }
-
-  // ========================================
-  // KEYBOARD SHORTCUTS
-  // ========================================
+  // Allow Enter key to submit
   document.getElementById('flagInput').addEventListener('keydown', e => {
     if (e.key === 'Enter') submitFlag();
-  });
-
-  document.getElementById('usernameInput').addEventListener('keydown', e => {
-    if (e.key === 'Enter') submitUsername();
   });
 </script>
 </body>

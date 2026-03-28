@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="OUCSS CTF — Forgotten Gateway Solvers">
+  <title>Solvers | Forgotten Gateway | OUCSS</title>
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <style>
+    /* ========================
+       CHALLENGE LEADERBOARD
+    ======================== */
+
+    .clb-hero {
+      padding: 6rem 2rem 2rem 2rem;
+      text-align: center;
+      background: linear-gradient(to bottom, rgba(0,255,204,0.05), transparent);
+    }
+
+    .clb-breadcrumb {
+      font-family: monospace;
+      font-size: 0.75rem;
+      opacity: 0.4;
+      margin-bottom: 1.5rem;
+      letter-spacing: 1px;
+    }
+
+    .clb-breadcrumb a { color: var(--primary); text-decoration: none; }
+
+    .clb-badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 0.25rem 0.75rem;
+      font-family: monospace;
+      color: #a8ff78;
+      border: 1px solid #a8ff7844;
+      background: rgba(168,255,120,0.06);
+      margin-bottom: 1rem;
+    }
+
+    .clb-hero h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .clb-hero p {
+      opacity: 0.6;
+      font-size: 0.9rem;
+      font-family: monospace;
+    }
+
+    /* Main section */
+    .clb-section {
+      padding: 2rem 2rem 6rem 2rem;
+    }
+
+    .clb-container {
+      max-width: 800px;
+      margin: auto;
+    }
+
+    /* Stats bar */
+    .clb-stats {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .clb-stat {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.06);
+      padding: 1rem 1.5rem;
+      flex: 1;
+      min-width: 140px;
+      text-align: center;
+    }
+
+    .clb-stat-number {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: var(--primary);
+      font-family: monospace;
+      display: block;
+    }
+
+    .clb-stat-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      opacity: 0.45;
+      font-family: monospace;
+      margin-top: 0.25rem;
+    }
+
+    /* Podium */
+    .clb-podium {
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      gap: 1rem;
+      margin-bottom: 3rem;
+      min-height: 160px;
+    }
+
+    .clb-podium-place {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+      flex: 1;
+      max-width: 180px;
+    }
+
+    .clb-podium-medal { font-size: 1.8rem; }
+    .clb-podium-name  { font-weight: 700; font-size: 0.95rem; text-align: center; word-break: break-word; }
+    .clb-podium-time  { font-family: monospace; font-size: 0.78rem; color: var(--primary); opacity: 0.8; }
+
+    .clb-podium-place.pos-1 .clb-podium-name { color: var(--primary); font-size: 1.05rem; }
+
+    .clb-podium-bar {
+      width: 100%;
+      background: rgba(0,255,204,0.08);
+      border: 1px solid rgba(0,255,204,0.15);
+      border-bottom: none;
+    }
+
+    .clb-podium-place.pos-1 .clb-podium-bar { height: 90px; background: rgba(0,255,204,0.14); }
+    .clb-podium-place.pos-2 .clb-podium-bar { height: 65px; }
+    .clb-podium-place.pos-3 .clb-podium-bar { height: 45px; }
+
+    /* Table */
+    .clb-table-wrapper { overflow-x: auto; }
+
+    .clb-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: monospace;
+    }
+
+    .clb-table th {
+      text-align: left;
+      padding: 0.75rem 1rem;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--primary);
+      border-bottom: 1px solid rgba(0,255,204,0.2);
+    }
+
+    .clb-table td {
+      padding: 0.85rem 1rem;
+      font-size: 0.88rem;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      transition: 0.2s ease;
+    }
+
+    .clb-table tr:hover td { background: rgba(0,255,204,0.03); }
+
+    .clb-rank    { color: var(--primary); font-weight: bold; width: 50px; }
+    .clb-time    { color: var(--primary); }
+    .clb-date    { opacity: 0.45; font-size: 0.8rem; }
+
+    .clb-medal   { font-size: 1.1rem; }
+
+    /* Empty state */
+    .clb-empty {
+      text-align: center;
+      padding: 4rem 2rem;
+      opacity: 0.5;
+      font-family: monospace;
+      font-size: 0.9rem;
+      border: 1px dashed rgba(255,255,255,0.08);
+    }
+
+    /* CTA */
+    .clb-cta {
+      margin-top: 3rem;
+      text-align: center;
+      padding: 2rem;
+      background: rgba(0,255,204,0.02);
+      border: 1px solid rgba(0,255,204,0.1);
+    }
+
+    .clb-cta p {
+      opacity: 0.6;
+      font-size: 0.88rem;
+      margin-bottom: 1.25rem;
+      font-family: monospace;
+    }
+
+    /* Refresh button */
+    .clb-refresh {
+      font-family: monospace;
+      font-size: 0.78rem;
+      background: none;
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--text-dark);
+      padding: 0.4rem 1rem;
+      cursor: pointer;
+      transition: 0.2s ease;
+      margin-bottom: 2rem;
+      display: inline-block;
+    }
+
+    .clb-refresh:hover { border-color: var(--primary); color: var(--primary); }
+
+    /* Light mode */
+    body.light-mode .clb-stat { background: #fff; border-color: #c8c8c8; }
+    body.light-mode .clb-table td { border-bottom-color: rgba(0,0,0,0.07); }
+    body.light-mode .clb-table tr:hover td { background: rgba(0,122,96,0.04); }
+    body.light-mode .clb-cta { background: #fff; border-color: #c8c8c8; }
+  </style>
+</head>
+<body>
+
+<header class="navbar">
+  <div class="nav-container">
+    <div class="logo"><a href="/">OUCSS</a></div>
+    <nav class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="lore.html">Lore</a>
+      <a href="team.html">Team</a>
+      <a href="projects.html">Member Projects</a>
+      <a href="blog.html">Blogs</a>
+      <a href="meetups.html">Meetups</a>
+      <a href="resources.html">Resources</a>
+      <a href="leaderboard.html">Leaderboard</a>
+      <a href="challenge.html">Challenge</a>
+      <a href="https://join.oucss.rocks" target="_blank">Join</a>
+    </nav>
+    <div class="nav-controls">
+      <button id="themeToggle">🌙</button>
+      <div class="hamburger" id="hamburger">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Hero -->
+<div class="clb-hero">
+  <div class="clb-breadcrumb">
+    <a href="challenge.html">Challenge</a> &nbsp;/&nbsp;
+    <a href="challenge.html">Forgotten Gateway</a> &nbsp;/&nbsp;
+    Solvers
+  </div>
+  <div class="clb-badge">Beginner · Web · 100pts</div>
+  <h1>Forgotten Gateway — Solvers</h1>
+  <p id="lastUpdated">Loading...</p>
+</div>
+
+<!-- Leaderboard -->
+<section class="clb-section">
+  <div class="clb-container">
+
+    <!-- Stats -->
+    <div class="clb-stats">
+      <div class="clb-stat">
+        <span class="clb-stat-number" id="statSolves">—</span>
+        <div class="clb-stat-label">Total Solves</div>
+      </div>
+      <div class="clb-stat">
+        <span class="clb-stat-number" id="statFirst">—</span>
+        <div class="clb-stat-label">First Blood</div>
+      </div>
+      <div class="clb-stat">
+        <span class="clb-stat-number" id="statFastest">—</span>
+        <div class="clb-stat-label">Fastest Solve</div>
+      </div>
+    </div>
+
+    <button class="clb-refresh" onclick="loadSolves()">↻ Refresh</button>
+
+    <!-- Podium -->
+    <div class="clb-podium" id="podium"></div>
+
+    <!-- Table -->
+    <div class="clb-table-wrapper">
+      <table class="clb-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Player</th>
+            <th>Solve Time</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody id="solveTableBody">
+          <tr><td colspan="4" class="clb-empty">Loading solvers...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- CTA -->
+    <div class="clb-cta">
+      <p>// Haven't solved it yet? The portal is waiting.</p>
+      <a href="challenge.html" class="btn-primary">Take the Challenge →</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">OUCSS</div>
+        <p>Open University Cyber Security Society. Beginner to Elite.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Compete</h4>
+        <a href="ctfd.html">CTF Platform</a>
+        <a href="leaderboard.html">Leaderboard</a>
+      </div>
+      <div class="footer-col">
+        <h4>Learn</h4>
+        <a href="resources.html">Resources</a>
+        <a href="blog.html">Blogs</a>
+        <a href="meetups.html">Meetups</a>
+      </div>
+      <div class="footer-col">
+        <h4>Community</h4>
+        <a href="about.html">About</a>
+        <a href="team.html">Team</a>
+        <a href="https://join.oucss.rocks" target="_blank">Join</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 OUCSS — Open University Cyber Security Society</p>
+      <div class="footer-socials">
+        <a href="https://discord.gg/oucss" target="_blank">Discord</a>
+        <a href="https://github.com/oucss" target="_blank">GitHub</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/js/theme.js"></script>
+<script src="/assets/js/main.js"></script>
+<script>
+  const BACKEND = "http://35.232.179.119:9004";
+  const MEDALS  = ["🥇", "🥈", "🥉"];
+
+  async function loadSolves() {
+    document.getElementById('lastUpdated').textContent = 'Refreshing...';
+    try {
+      const res    = await fetch(`${BACKEND}/solves`);
+      const solves = await res.json();
+
+      // Stats
+      document.getElementById('statSolves').textContent  = solves.length || '0';
+      document.getElementById('statFirst').textContent   = solves.length ? solves[0].username : '—';
+      document.getElementById('statFastest').textContent = solves.length
+        ? solves.reduce((a, b) => a.position <= b.position ? a : b).solve_time
+        : '—';
+
+      document.getElementById('lastUpdated').textContent =
+        `Last updated: ${new Date().toLocaleTimeString()} · ${solves.length} solver${solves.length !== 1 ? 's' : ''}`;
+
+      // Podium (top 3)
+      const podium = document.getElementById('podium');
+      podium.innerHTML = '';
+
+      // Show 2nd, 1st, 3rd order for visual podium
+      const podiumOrder = [1, 0, 2];
+      const posClass    = ['pos-2', 'pos-1', 'pos-3'];
+
+      podiumOrder.forEach((idx, i) => {
+        const solver = solves[idx];
+        const div = document.createElement('div');
+        div.className = `clb-podium-place ${posClass[i]}`;
+
+        if (solver) {
+          div.innerHTML = `
+            <span class="clb-podium-medal">${MEDALS[idx]}</span>
+            <div class="clb-podium-name">${escHtml(solver.username)}</div>
+            <div class="clb-podium-time">${solver.solve_time}</div>
+            <div class="clb-podium-bar"></div>
+          `;
+        } else {
+          div.innerHTML = `
+            <div class="clb-podium-bar" style="opacity:0.3"></div>
+          `;
+        }
+        podium.appendChild(div);
+      });
+
+      // Table
+      const tbody = document.getElementById('solveTableBody');
+      if (solves.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="4" class="clb-empty">No solves yet — be the first!</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = solves.map((s, i) => `
+        <tr>
+          <td class="clb-rank">${i < 3 ? MEDALS[i] : '#' + s.position}</td>
+          <td>${escHtml(s.username)}</td>
+          <td class="clb-time">${s.solve_time}</td>
+          <td class="clb-date">${s.timestamp}</td>
+        </tr>
+      `).join('');
+
+    } catch (e) {
+      document.getElementById('lastUpdated').textContent = '⚠ Could not reach challenge server';
+      document.getElementById('solveTableBody').innerHTML =
+        `<tr><td colspan="4" class="clb-empty">Could not load solves — is the server running?</td></tr>`;
+    }
+  }
+
+  function escHtml(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  loadSolves();
+</script>
+</body>
+</html>

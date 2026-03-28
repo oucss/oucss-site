@@ -46,18 +46,48 @@ document.querySelectorAll('.nav-links a').forEach(link => {
 // ================================
 // Leaderboard Functionality
 // ================================
-function fetchLeaderboard() {
+const LOCAL_LEADERBOARD_KEY = 'oucss_leaderboard';
+
+function getLocalLeaderboard() {
+  const primary = JSON.parse(localStorage.getItem(LOCAL_LEADERBOARD_KEY) || 'null');
+  if (Array.isArray(primary)) return primary;
+
+  // backward-compatible fallback for old exists key
+  const legacy = JSON.parse(localStorage.getItem('leaderboard') || 'null');
+  if (Array.isArray(legacy)) return legacy;
+
+  return [];
+}
+
+function setLocalLeaderboard(entries) {
+  localStorage.setItem(LOCAL_LEADERBOARD_KEY, JSON.stringify(entries));
+}
+function addLocalLeaderboardEntry(username, score, challenge_id = null) {
+  if (!username || isNaN(score)) return false;
+  const leaderboard = getLocalLeaderboard();
+  leaderboard.push({ username, score: Number(score), challenge_id, solved_at: new Date().toISOString() });
+  setLocalLeaderboard(leaderboard);
+  return true;
+}
+
+function renderLeaderboard() {
   console.log('Leaderboard loading...');
   const tableBody = document.getElementById('leaderboardBody');
   if (!tableBody) return;
-  
-  // Load from localStorage, or use empty array
-  let players = JSON.parse(localStorage.getItem('leaderboard')) || [];
 
-  // Sort by score descending
+  let players = getLocalLeaderboard();
   players.sort((a, b) => b.score - a.score);
 
   tableBody.innerHTML = '';
+  if (players.length === 0) {
+    tableBody.innerHTML = `
+      <tr>
+        <td colspan="3" style="text-align:center;opacity:0.7">No leaderboard entries yet. Solve a challenge to add one.</td>
+      </tr>
+    `;
+    return;
+  }
+
   players.forEach((player, index) => {
     const row = `
       <tr>
@@ -68,6 +98,10 @@ function fetchLeaderboard() {
     `;
     tableBody.innerHTML += row;
   });
+}
+// Backwards-compatible function name referenced in old code
+function fetchLeaderboard() {
+  renderLeaderboard();
 }
 
 // Function to add a new player (for testing/demo)
@@ -136,7 +170,8 @@ function submitUsername() {
 }
 
 // Load leaderboard if on leaderboard page
-if (document.getElementById('leaderboardTable')) {
+if (document.getElementById('leaderboard') || document.getElementById('leaderboardTable')) {
+  // Support table setups with id='leaderboard' (new) and id='leaderboardTable' (legacy)
   fetchLeaderboard();
 }
 
@@ -187,4 +222,6 @@ const footerHTML = `
 </footer>
 `;
 
-document.body.insertAdjacentHTML('beforeend', footerHTML);
+if (!document.getElementById('leaderboard')) {
+  document.body.insertAdjacentHTML('beforeend', footerHTML);
+}
